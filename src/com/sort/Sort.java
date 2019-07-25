@@ -43,8 +43,8 @@ public class Sort {
      * 交换元素
      *
      * @param arr
-     * @param a   元素的下标
-     * @param b   元素的下标
+     * @param a
+     * @param b
      */
     public void swap(int[] arr, int a, int b) {
         int temp = arr[a];
@@ -139,5 +139,42 @@ public class Sort {
 
     public void mergingSort(int[] array) {
 
+    }
+
+    public void quickSort(int[] array) {
+        if (array == null || array.length == 0) return;
+        quickSort(array, 0, array.length - 1);
+    }
+
+    private void quickSort(int[] array, int left, int right) {
+        if (left < right) {
+            int index = partition(array, left, right);
+            quickSort(array, left, index - 1);
+            quickSort(array, index + 1, right);
+        }
+    }
+
+    private int partition(int[] array, int left, int right) {
+        int pivot = array[right];
+        int temp = 0;
+        for (int i = left; i < right; i++) {
+            if (array[i] < pivot) {
+                temp = array[i];
+                array[i] = array[left];
+                array[left] = temp;
+                left++;
+            }
+        }
+
+        temp = array[left];
+        array[left] = array[right];
+        array[right] = temp;
+        return left;
+    }
+
+    public void print(int[] array) {
+        for (Object o : array) {
+            System.out.print(o + " ");
+        }
     }
 }

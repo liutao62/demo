@@ -4,18 +4,20 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Random;
+
 public class SortTest {
-    private int[] array;
+
     Sort sort = new Sort();
+    int size = 1000000;
+    private int[] array = new int[size];
 
     @Before
     public void setUp() throws Exception {
-        array = new int[200000];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = (int) (20000 * Math.random());
-         //   System.out.print(array[i] + " ");
+        Random rand = new Random();
+        for (int i = 0; i< size; i++) {
+            array[i] = rand.nextInt(size);
         }
-       // System.out.println();
     }
 
     @After
@@ -46,4 +48,7 @@ public class SortTest {
     public void heapSort() {
         sort.heapSort(array);
     }
+
+    @Test
+    public void quickSort(){sort.quickSort(array);}
 }
