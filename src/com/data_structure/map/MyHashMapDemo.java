@@ -1,4 +1,4 @@
-package com.data_structure.Map;
+package com.data_structure.map;
 
 public class MyHashMapDemo {
     public static void main(String[] args) {
