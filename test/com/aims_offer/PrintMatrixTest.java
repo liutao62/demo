@@ -9,14 +9,14 @@ public class PrintMatrixTest {
         int[][] array = new int[][]{
                 {1}
         };
-        System.out.println(new PrintMatrix().printMatrix(array));
+        System.out.println(new _19_PrintMatrix().printMatrix(array));
 
         array = new int[][]{
                 {1,2,3,4,5},
                 {6,7,8,9,10},
                 {11,12,13,14,15}
         };
-        System.out.println(new PrintMatrix().printMatrix(array));
+        System.out.println(new _19_PrintMatrix().printMatrix(array));
 
         array = new int[][]{
                 {1},
@@ -25,13 +25,13 @@ public class PrintMatrixTest {
                 {4},
                 {5}
         };
-        System.out.println(new PrintMatrix().printMatrix(array));
+        System.out.println(new _19_PrintMatrix().printMatrix(array));
 
         array = new int[][]{
                 {1,2},
                 {3,4}
         };
-        System.out.println(new PrintMatrix().printMatrix(array));
+        System.out.println(new _19_PrintMatrix().printMatrix(array));
 
         array = new int[][]{
                 {1,2},
@@ -40,7 +40,7 @@ public class PrintMatrixTest {
                 {7,8},
                 {9,10}
         };
-        System.out.println(new PrintMatrix().printMatrix(array));
+        System.out.println(new _19_PrintMatrix().printMatrix(array));
 
         array = new int[][]{
                 {1,2,3,4,17},
@@ -48,7 +48,7 @@ public class PrintMatrixTest {
                 {9,10,11,12,19},
                 {13,14,15,16,20}
         };
-        System.out.println(new PrintMatrix().printMatrix(array));
+        System.out.println(new _19_PrintMatrix().printMatrix(array));
 
 
     }
