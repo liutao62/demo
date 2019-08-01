@@ -1,4 +1,4 @@
-package com.mytest;
+package com.javasedemo;
 
 public class Main {
 

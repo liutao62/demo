@@ -1,4 +1,4 @@
-package com.mytest;
+package com.javasedemo;
 
 import java.io.*;
 import java.net.Socket;

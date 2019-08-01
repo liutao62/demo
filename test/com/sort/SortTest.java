@@ -1,6 +1,5 @@
 package com.sort;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,7 +8,7 @@ import java.util.Random;
 public class SortTest {
 
     Sort sort = new Sort();
-    int size = 1000000;
+    int size = 40000000;
     private int[] array = new int[size];
 
     @Before
@@ -20,6 +19,7 @@ public class SortTest {
         }
     }
 
+/*
     @After
     public void tearDown() throws Exception {
     }
@@ -48,7 +48,9 @@ public class SortTest {
     public void heapSort() {
         sort.heapSort(array);
     }
+*/
 
     @Test
     public void quickSort(){sort.quickSort(array);}
+
 }

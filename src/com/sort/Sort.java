@@ -158,23 +158,18 @@ public class Sort {
         int pivot = array[right];
         int temp = 0;
         for (int i = left; i < right; i++) {
-            if (array[i] < pivot) {
+            //加入 left ！= i 比较条件，避免不必要的代码执行，但也增加了条件语句的复杂性，
+            //在 数组大小为 1亿 的情况下 比无此比较条件总体缩减 0 - 3 s
+            if (array[i] < pivot && left != i) {
                 temp = array[i];
                 array[i] = array[left];
                 array[left] = temp;
                 left++;
             }
         }
-
         temp = array[left];
         array[left] = array[right];
         array[right] = temp;
         return left;
-    }
-
-    public void print(int[] array) {
-        for (Object o : array) {
-            System.out.print(o + " ");
-        }
     }
 }
