@@ -1,5 +1,6 @@
 package com.sort;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,9 +20,9 @@ public class SortTest {
         }
     }
 
-/*
     @After
     public void tearDown() throws Exception {
+
     }
 
     @Test
@@ -48,9 +49,13 @@ public class SortTest {
     public void heapSort() {
         sort.heapSort(array);
     }
-*/
 
     @Test
     public void quickSort(){sort.quickSort(array);}
+
+    @Test
+    public void mergeSort(){
+        sort.mergeSort(array);
+    }
 
 }

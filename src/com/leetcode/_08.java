@@ -10,11 +10,48 @@ package com.leetcode;
  */
 public class _08 {
     /**
-     * @description long值溢出
      * @param str
      * @return
+     * @description long值溢出
      */
     public int myAtoi(String str) {
+        if (str == null || str.trim().length() == 0) return 0;
+        char[] chars = str.trim().toCharArray();
+        StringBuffer sb = new StringBuffer();
+
+        for (int i = 0; i < chars.length; i++) {
+            char c = chars[i];
+            // - + 符号处理
+            if (i == 0 && c == 45) {
+                sb.append(c);
+            } else if (i == 0 &&  c == 43){
+            }else if (c > 47 && c < 58) { // 数字处理
+                sb.append(c);
+            } else {
+                break;
+            }
+        }
+
+        String substring = sb.toString();
+        if (sb.length() > 12) {
+            substring = sb.charAt(0) + sb.substring(sb.length() - 12, sb.length());
+        }
+
+        Long target = 0L;
+        if (substring.length() > 0) {
+            if (substring.length() == 1 && substring.charAt(0) == 45) {
+            } else
+                target = Long.parseLong(substring);
+        }
+        if (target > Integer.MAX_VALUE) {
+            return Integer.MAX_VALUE;
+        } else if (target < Integer.MIN_VALUE) return Integer.MIN_VALUE;
+        else return target.intValue();
+    }
+
+
+
+/*    public int myAtoi(String str) {
         if (str == null || str.trim().length() == 0) return 0;
         str = str.trim();
         char[] chars = new char[str.length()];
@@ -47,14 +84,7 @@ public class _08 {
         return getTarget(targetNumber);
 
     }
-    
-    /**
-     * @Author liutao
-     * @description 
-     * @Date 2019/6/17 19:22
-     * @param 
-     * @return 
-     */
+
     private int stateCharAt(String str, int index) {
         char c = str.charAt(index);
         if (47 < c && c < 58) return 0;
@@ -66,5 +96,5 @@ public class _08 {
         if (target > Integer.MAX_VALUE) return Integer.MAX_VALUE;
         else if (target < Integer.MIN_VALUE) return Integer.MIN_VALUE;
         return (int) target;
-    }
+    }*/
 }

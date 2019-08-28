@@ -4,7 +4,7 @@ public class Sort {
     /**
      * @param
      * @return
-     * @description 本方法只有一个参数，那就是待排序的array
+     * @description 待排序的array
      */
     public void heapSort(int[] array) {
         for (int i = array.length / 2 - 1; i >= 0; i--) {
@@ -137,8 +137,43 @@ public class Sort {
         } while (increment > 1);
     }
 
-    public void mergingSort(int[] array) {
+    public void mergeSort(int[] array) {
+        mergeSort(array, 0, array.length - 1);
+    }
 
+    private void mergeSort(int[] array, int low, int high) {
+        if (low >= high) {
+            return;
+        }
+        int middle = (low + high) >> 1;
+        mergeSort(array, low, middle);
+        mergeSort(array, middle + 1, high);
+        merge(array, low, middle, high);
+    }
+
+    private void merge(int[] array, int low, int middle, int high) {
+        // 辅助数组
+        int[] helper = new int[array.length];
+
+        System.arraycopy(array, 0, helper, 0, high + 1);
+
+        int helperLeft = low;
+        int helperRight = middle + 1;
+        int current = low;
+
+        while (helperLeft <= middle && helperRight <= high) {
+            if (helper[helperLeft] <= helper[helperRight]) {
+                array[current] = helper[helperLeft];
+                helperLeft++;
+            } else {
+                array[current] = helper[helperRight];
+                helperRight++;
+            }
+            current++;
+        }
+
+        int remaining = middle - helperLeft;
+        System.arraycopy(helper, helperLeft, array, current, remaining + 1);
     }
 
     public void quickSort(int[] array) {

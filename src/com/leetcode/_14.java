@@ -8,16 +8,39 @@ package com.leetcode;
 public class _14 {
     public String longestCommonPrefix(String[] strs) {
         if (strs == null || strs.length == 0) return "";
-        return "";
+        int minIndex = getMinIndex(strs);
+        int index = equalsIndex(strs, 0, minIndex);
+        if (index < 0) return "";
+
+
+        String substring = strs[0].substring(0, index);
+        return substring;
     }
 
-    private boolean equals(String[] strings, int index) throws Exception {
-        char temp = strings[0].charAt(index);
-        for (int i = 0; i < strings.length; i++) {
-            if (strings[i].charAt(index) != temp) {
-                return false;
+    private int equalsIndex(String[] strings, int beginIndex, int endIndex) {
+        int idx = beginIndex;
+        while (idx <= endIndex) {
+            char temp = strings[0].charAt(idx);
+            for (int i = 1; i < strings.length; i++) {
+                String str = strings[i];
+                if (str != null && str.length() > 0) {
+                    if (str.charAt(idx) != temp) {
+                        return idx;
+                    }
+                }
             }
+            idx++;
         }
-        return true;
+        return idx;
+    }
+
+    private int getMinIndex(String[] strs) {
+        int index = Integer.MAX_VALUE;
+        for (String str : strs) {
+            if (str != null) {
+                index = str.length() - 1 < index ? str.length() - 1 : index;
+            } else return -1;
+        }
+        return index;
     }
 }
