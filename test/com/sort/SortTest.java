@@ -9,7 +9,7 @@ import java.util.Random;
 public class SortTest {
 
     Sort sort = new Sort();
-    int size = 40000000;
+    int size = 10;
     private int[] array = new int[size];
 
     @Before

@@ -163,13 +163,10 @@ public class Sort {
 
         while (helperLeft <= middle && helperRight <= high) {
             if (helper[helperLeft] <= helper[helperRight]) {
-                array[current] = helper[helperLeft];
-                helperLeft++;
+                array[current++] = helper[helperLeft++];
             } else {
-                array[current] = helper[helperRight];
-                helperRight++;
+                array[current++] = helper[helperRight++];
             }
-            current++;
         }
 
         int remaining = middle - helperLeft;
