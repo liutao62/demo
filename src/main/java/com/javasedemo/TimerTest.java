@@ -8,6 +8,13 @@ public class TimerTest {
 
     public static void main(String[] args) throws InterruptedException {
         System.out.println("begin");
+        System.out.println(task());
+        System.out.println("after");
+        Thread.sleep(2200);
+
+    }
+
+    public static int task(){
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -19,8 +26,6 @@ public class TimerTest {
                 System.out.println("计时器");
             }
         },0);
-        System.out.println("after");
-        Thread.sleep(1000);
-
+        return 1;
     }
 }

@@ -2,8 +2,6 @@ package com.leetcode;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class _14Test {
 
     private _14 test = new _14();

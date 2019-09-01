@@ -6,19 +6,21 @@ import java.util.Map;
 public class _04_ReConstructBinaryTree {
 
     public TreeNode buildTree(int[] pre, int[] in) {
+        if (pre == null || in == null) return null;
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < in.length; i++) {
             map.put(in[i], i);
         }
-        return buildBinaryTree(pre, 0, pre.length, map);
+        return build(pre, 0, pre.length - 1, 0, map);
     }
 
-    private TreeNode buildBinaryTree(int[] pre, int beginIndex, int childLength, Map<Integer, Integer> map) {
-        if (pre == null) return null;
-        if (childLength <= 0) return null;
-        TreeNode root = new TreeNode(pre[beginIndex]);
-        root.left = buildBinaryTree(pre, beginIndex + 1, map.get(pre[beginIndex]), map);
-        root.right = buildBinaryTree(pre, map.get(pre[beginIndex]) + 1, pre.length - map.get(pre[beginIndex]), map);
+    private TreeNode build(int[] pre, int preStart, int preEnd, int inStart, Map<Integer, Integer> map) {
+        if (preStart > preEnd) return null;
+        Integer rootIdx = map.get(pre[preStart]);
+        int leftLength = rootIdx - inStart;
+        TreeNode root = new TreeNode(pre[preStart]);
+        root.left = build(pre, preStart + 1, preStart + leftLength, inStart, map);
+        root.right = build(pre, preStart + leftLength + 1, preEnd, rootIdx + 1, map);
         return root;
     }
 
