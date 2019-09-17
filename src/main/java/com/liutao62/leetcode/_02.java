@@ -17,6 +17,10 @@ class ListNode {
     ListNode(int x) {
         val = x;
     }
+
+    public String toString() {
+        return "node " + this.val;
+    }
 }
 
 public class _02 {
