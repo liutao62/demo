@@ -1,34 +1,33 @@
 package com.liutao62.data_structure.tree;
 
-import com.liutao62.data_structure.tree.impl.MyTreeNode;
+/**
+ * @description 仅用于操作 Integer 类型 Key 的无 Value 的二叉排序树
+ */
+public class BinarySortTree extends BST<Integer, Object> {
 
-public class BinarySortTree {
-    public MyTreeNode buildSortTree(int[] array) {
-        if (array == null || array.length == 0) return null;
-        MyTreeNode<Integer> node = new MyTreeNode(array[0]);
-        MyTreeNode<Integer> root = node;
-        for (int i = 1; i < array.length; i++) {
-            buildSuppot(root, array[i]);
-        }
-        return root;
+    private static final Object DEFAULT_VALUE = new Object();
+
+    @Override
+    public int size() {
+        return super.size();
     }
 
-    public boolean buildSuppot(MyTreeNode<Integer> root, int num) {
-        if (num < root.val) {
-            if (root.left != null) {
-                buildSuppot(root.left, num);
-            } else {
-                root.left = new MyTreeNode(num);
-                return true;
-            }
-        } else {
-            if (root.right != null) {
-                buildSuppot(root.right, num);
-            } else {
-                root.right = new MyTreeNode(num);
-                return true;
-            }
-        }
-        return false;
+    public void put(Integer key) {
+        super.put(key, DEFAULT_VALUE);
+    }
+
+    @Override
+    public void delete(Integer key) {
+        super.delete(key);
+    }
+
+    @Override
+    public void deleteMin() {
+        super.deleteMin();
+    }
+
+    @Override
+    public Integer min() {
+        return super.min();
     }
 }

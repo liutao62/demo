@@ -3,20 +3,20 @@ package com.liutao62.data_structure.tree.impl;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MyTreeNodeTest {
-    private MyTreeNode<Integer> root = new MyTreeNode<>(1);
+public class MyBinaryTreeTest {
+    private MyBinaryTree<Integer> root = new MyBinaryTree<>(1);
 
 
     @Before
     public void before() {
-        root.left = new MyTreeNode(2);
-        root.right = new MyTreeNode(3);
-        MyTreeNode temp = root.left;
-        temp.right = new MyTreeNode(4);
+        root.left = new MyBinaryTree(2);
+        root.right = new MyBinaryTree(3);
+        MyBinaryTree temp = root.left;
+        temp.right = new MyBinaryTree(4);
         temp = root.right;
-        temp.left = new MyTreeNode(5);
-        temp.right = new MyTreeNode(6);
-        temp.left.left = new MyTreeNode(7);
+        temp.left = new MyBinaryTree(5);
+        temp.right = new MyBinaryTree(6);
+        temp.left.left = new MyBinaryTree(7);
     }
 
     @Test
@@ -53,7 +53,7 @@ public class MyTreeNodeTest {
     public void buildTree() {
         int[] pre = new int[]{1,2,4,8,5,3,6,9,10,7};
         int[] in = new int[]{4,8,2,5,1,9,6,10,3,7};
-        MyTreeNode<Integer> tree = MyTreeNode.buildTree(pre, in);
+        MyBinaryTree<Integer> tree = MyBinaryTree.buildTree(pre, in);
         tree.preOrder();
         tree.levelOrder();
     }

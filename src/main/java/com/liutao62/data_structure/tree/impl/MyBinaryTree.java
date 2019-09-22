@@ -6,20 +6,20 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-public class MyTreeNode<T> implements MyTree<T> {
+public class MyBinaryTree<T> implements MyTree<T> {
 
-    public MyTreeNode left;
-    public MyTreeNode right;
+    public MyBinaryTree left;
+    public MyBinaryTree right;
     public T val;
 
-    public MyTreeNode(T val) {
+    public MyBinaryTree(T val) {
         this.val = val;
     }
 
-    public MyTreeNode() {
+    public MyBinaryTree() {
     }
 
-    public static MyTreeNode<Integer> buildTree(int[] pre, int[] in) {
+    public static MyBinaryTree<Integer> buildTree(int[] pre, int[] in) {
         if (pre == null || in == null) return null;
         if (pre.length == 0 || in.length == 0) return null;
         if (pre.length != in.length) return null;
@@ -30,11 +30,11 @@ public class MyTreeNode<T> implements MyTree<T> {
         return buildTreeHelper(pre, 0, pre.length - 1, 0, map);
     }
 
-    private static MyTreeNode<Integer> buildTreeHelper(int[] pre, int preStart, int preEnd, int inStart, Map<Integer, Integer> map) {
+    private static MyBinaryTree<Integer> buildTreeHelper(int[] pre, int preStart, int preEnd, int inStart, Map<Integer, Integer> map) {
         if (preStart > preEnd) return null;
         Integer rootIdx = map.get(pre[preStart]);
         int leftLength = rootIdx - inStart;
-        MyTreeNode<Integer> root = new MyTreeNode<>(pre[preStart]);
+        MyBinaryTree<Integer> root = new MyBinaryTree<>(pre[preStart]);
         root.left = buildTreeHelper(pre, preStart + 1, preStart + leftLength, inStart, map);
         root.right = buildTreeHelper(pre, preStart + leftLength + 1, preEnd, rootIdx + 1, map);
         return root;
@@ -56,7 +56,7 @@ public class MyTreeNode<T> implements MyTree<T> {
         inOrderHelper(this);
     }
 
-    private void inOrderHelper(MyTreeNode<T> node) {
+    private void inOrderHelper(MyBinaryTree<T> node) {
         if (node != null) {
             preOrderHelper(node.left);
             System.out.print(node.val + " ");
@@ -64,7 +64,7 @@ public class MyTreeNode<T> implements MyTree<T> {
         }
     }
 
-    private void preOrderHelper(MyTreeNode node) {
+    private void preOrderHelper(MyBinaryTree node) {
         if (node != null) {
             System.out.print(node.val + " ");
             preOrderHelper(node.left);
@@ -77,11 +77,11 @@ public class MyTreeNode<T> implements MyTree<T> {
      */
     @Override
     public void levelOrder() {
-        LinkedList<MyTreeNode> list = new LinkedList<>();
+        LinkedList<MyBinaryTree> list = new LinkedList<>();
         list.add(this);
 
         while (list.size() > 0) {
-            MyTreeNode peek = list.peek();
+            MyBinaryTree peek = list.peek();
             if (peek != null) {
                 list.pop();
                 System.out.print(peek.val + " ");
