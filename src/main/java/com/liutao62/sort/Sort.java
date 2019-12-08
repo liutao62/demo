@@ -4,15 +4,16 @@ public class Sort {
     /**
      * @param
      * @return
-     * @description 待排序的array
+     * @description
      */
     public void heapSort(int[] array) {
-        for (int i = array.length / 2 - 1; i >= 0; i--) {
+        for (int i = (array.length >> 1) - 1; i >= 0; i--) {
             adjustHeap(array, i, array.length);
         }
         // 下面，开始排序逻辑
         for (int j = array.length - 1; j > 0; j--) {
             swap(array, 0, j);
+            // 将已交换的当前最大数排除并重新构建大堆顶
             adjustHeap(array, 0, j);
         }
     }
@@ -24,7 +25,7 @@ public class Sort {
      */
     public void adjustHeap(int[] array, int i, int length) {
         int temp = array[i];
-        for (int k = 2 * i + 1; k < length; k = 2 * k + 1) {
+        for (int k = (i << 1) + 1; k < length; k = (k << 1) + 1) {
             // 让k先指向子节点中最大的节点
             if (k + 1 < length && array[k] < array[k + 1]) {
                 k++;
@@ -40,11 +41,10 @@ public class Sort {
     }
 
     /**
-     * 交换元素
-     *
      * @param arr
      * @param a
      * @param b
+     * @description 交换元素
      */
     public void swap(int[] arr, int a, int b) {
         int temp = arr[a];
@@ -53,9 +53,8 @@ public class Sort {
     }
 
     /**
-     * 冒泡排序基础版，O(n^2),T(1)
-     *
      * @param array
+     * @description 冒泡排序基础版，T:O(n^2),S:O(1)
      */
     public void bubbleSort(int[] array) {
         int temp;
@@ -72,9 +71,8 @@ public class Sort {
     }
 
     /**
-     * 选择排序，O(n^2) T(1),较冒泡排序而言减少了交换次数
-     *
      * @param array
+     * @description 选择排序，T:O(n^2),S:O(1),较冒泡排序而言减少了交换次数
      */
     public void selectedSort(int[] array) {
         int index;
@@ -95,9 +93,8 @@ public class Sort {
     }
 
     /**
-     * 插入排序，O(n^2) T(1) 最好情况O(n),性能优于冒泡和选择
-     *
      * @param array
+     * @description 插入排序，T:O(n^2),S:O(1) 最好情况O(n),性能优于冒泡和选择
      */
 
     public void insertSort(int[] array) {
@@ -115,9 +112,8 @@ public class Sort {
     }
 
     /**
-     * 希尔排序 O(nlogn),T(1)
-     *
      * @param array
+     * @description 希尔排序 T:O(nlogn),S:O(1)
      */
     public void shellSort(int[] array) {
         int increment = array.length;
