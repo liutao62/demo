@@ -1,5 +1,8 @@
 package com.liutao62.leetcode;
 
+import lombok.experimental.Accessors;
+
+@Accessors(chain = true)
 public class ListNode {
     public int val;
     public ListNode next;
