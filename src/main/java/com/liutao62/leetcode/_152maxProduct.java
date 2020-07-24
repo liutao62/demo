@@ -10,7 +10,9 @@ public class _152maxProduct {
                 arr[i] = nums[i];
             }
             if (i > 0){
-                if (arr[i - 1] != 0)
+                if (arr[i - 1] != 0){
+
+                }
             }
         }
         return 0;
