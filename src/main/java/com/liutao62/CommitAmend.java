@@ -6,4 +6,7 @@ package com.liutao62;
  * @description
  */
 public class CommitAmend {
+    public static void main(String[] args) {
+        System.out.println("both modify");
+    }
 }
