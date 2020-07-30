@@ -7,6 +7,6 @@ package com.liutao62;
  */
 public class CommitAmend {
     public static void main(String[] args) {
-        System.out.println("both modify");
+        System.out.println("both modify then merge");
     }
 }
