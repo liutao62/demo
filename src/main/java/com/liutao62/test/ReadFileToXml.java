@@ -52,6 +52,11 @@ public class ReadFileToXml {
 
     private static int DEFAULT_LENGTH = 50;
 
+    /**
+     * @param line
+     * @return
+     * @description 设置 <attribute> 的属性值，位置写死了
+     */
     private static String getAttribute(String line) {
         StringBuffer sb = new StringBuffer(ATTRIBUTE_AFTER_TYPE);
         String[] split = line.split("\t");
@@ -65,15 +70,21 @@ public class ReadFileToXml {
             }
             type = getRealType(type.substring(0, type.lastIndexOf("(")).toLowerCase());
         }
+        // 数据库字段名
         String columnName = split[0];
+        // Java 字段名
         String name = columnName.toLowerCase();
+        // 数据库中对字段的注释，有些字段没有注释，所以直接用字段名
         String title = name;
         String tem;
+        // 如果有注释
         if (split.length > 3) {
             tem = split[3];
+            // 不符合条件快速跳出？？？
             if (tem == null || tem.length() == 0) {
             } else if ("Y".equals(tem) || "N".equals(tem) || "NULL".equals(tem)) {
             } else {
+                // 获取真正的注释
                 title = tem;
             }
         }
@@ -82,6 +93,11 @@ public class ReadFileToXml {
         return sb.toString();
     }
 
+    /**
+     * @param type
+     * @return
+     * @description 通过数据库字段类型获取对应的 Java 类型，后端类型规范不统一，只能做大概
+     */
     private static String getRealType(String type) {
         switch (type) {
             case "varchar":
@@ -113,9 +129,9 @@ public class ReadFileToXml {
     public static void main(String[] args) {
         File srcFile = new File("C:/Users/liutao/Desktop/src");
 
+        // 目标文件夹
         String targetDir = "C:/Users/liutao/Desktop/test/";
         String fileName = null;
-        StringBuffer strBuf = new StringBuffer();
         BufferedWriter writer = null;
         BufferedReader bufferedReader = null;
         try {
@@ -123,12 +139,17 @@ public class ReadFileToXml {
             String line;
             boolean end = true;
             while ((line = bufferedReader.readLine()) != null) {
+                // 拆分每行数据的值
                 String[] split = line.split("\t");
+                // 当前表信息读取完毕
                 if (split != null && split.length == 0) {
+                    // 设置读取完毕flag
                     end = true;
                     continue;
                 }
+                // 如果上张表信息读取完毕
                 if (end) {
+                    // 如果 writer 不为空则写入 FOOTER 信息
                     if (writer != null) {
                         writer.write(FOOTER);
                         writer.flush();
@@ -139,17 +160,21 @@ public class ReadFileToXml {
                             .filter(v -> !"ts".equalsIgnoreCase(v)).reduce((a, b) -> a + b);
                     String name = reduce.get();
                     fileName = "hrjq." + name + ".xml";
+                    // 开始写下一个新文件
                     writer = new BufferedWriter(new OutputStreamWriter(
                             new FileOutputStream(new File(targetDir + fileName)), "UTF-8"));
                     String header = getHeader(tableName, name);
                     writer.write(header);
                     writer.flush();
+                    // 设置未读取完毕flag
                     end = false;
                 } else {
+                    // 将表每行的信息设置为对应的 <attribute>
                     writer.write(getAttribute(line));
                     writer.flush();
                 }
             }
+            // 如果已经读取到末尾，写入 FOOTER 信息并关闭流
             writer.write(FOOTER);
             writer.flush();
             writer.close();
