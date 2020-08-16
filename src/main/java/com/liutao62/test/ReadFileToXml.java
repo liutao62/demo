@@ -29,7 +29,8 @@ public class ReadFileToXml {
     private static final String ATTRIBUTE_AFTER_END = "\"/>\n";
 
 
-    private static final String FOOTER = "        <generalizations>\n" +
+    private static final String FOOTER = "            </attributes>\n" +
+            "        </class>\n" + "        <generalizations>\n" +
             "            <generalization parent=\"base.entity.BizObject\" child=\"Renewal\"/>\n" +
             "        </generalizations>\n" +
             "\n" +
