@@ -47,6 +47,12 @@ class MyObject {
             return new MyObject(this);
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        // Method is never called
+        throw new AssertionError();
+    }
 }
 
 interface Builder<T> {

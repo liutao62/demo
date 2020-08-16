@@ -1,17 +1,21 @@
 package com.liutao62;
 
-import java.io.File;
-
 public class App {
     public static void main(String[] args) {
-        File file = new File("D:\\BaiduNetdiskDownload\\尚硅谷谷粒学院项目视频教程\\视频");
-        File[] files = file.listFiles();
-        for (File file1 : files) {
-            File[] files1 = file1.listFiles();
-            for (File file2 : files1) {
-                System.out.println(file2.getName());
-  //              file2.renameTo(new File(file2.getName().replace("尚硅谷-谷粒学院-", "")));
-            }
+        long start = System.currentTimeMillis();
+        Long sum = 0L;
+        for (long i = 0; i < Integer.MAX_VALUE; i++) {
+            sum += i;
         }
+        long end = System.currentTimeMillis();
+        System.out.println("计算 Long sum = " + sum + " 总用时： " + (end - start));
+
+        start = System.currentTimeMillis();
+        long sum1 = 0L;
+        for (long i = 0; i < Integer.MAX_VALUE; i++) {
+            sum1 += i;
+        }
+        end = System.currentTimeMillis();
+        System.out.println("计算 long sum = " + sum + " 总用时： " + (end - start));
     }
 }
