@@ -51,6 +51,12 @@ public class CloneDemo implements Cloneable {
         arr1[0] = 2;
         System.out.println(obj1);
         System.out.println(obj2);
+
+
+        Sub sub = new Sub();
+        Sub clone1 = sub.clone();
+        System.out.println(sub);
+        System.out.println(clone1);
     }
 
     /**
@@ -134,3 +140,18 @@ class MyHashTable implements Cloneable {
     }
 }
 
+class Super{
+    protected void sayHi(){}
+}
+
+class Sub extends Super implements Cloneable{
+    @Override
+    protected void sayHi() {
+        super.sayHi();
+    }
+
+    @Override
+    public Sub clone() throws CloneNotSupportedException {
+        return (Sub) super.clone();
+    }
+}

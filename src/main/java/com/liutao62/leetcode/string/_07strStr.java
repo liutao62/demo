@@ -1,43 +1,57 @@
 package com.liutao62.leetcode.string;
 
 public class _07strStr {
-   /* public int strStr(String haystack, String needle) {
-        if (haystack == null) {
-            return -1;
-        }
-        if (needle == null) {
-            return 0;
-        }
-
-    }*/
-
-    public int kmp(String text, String target) {
-        if (text == null || target == null || "".equals(text)
-                || "".equals(target))
-            return -1;
-        char[] targetChars = target.toCharArray();
-        char[] textChars = text.toCharArray();
-        int[] next = getNext(target);
-        int textIndex = 0, targetIndex = 0;
-        while (targetIndex < targetChars.length && textIndex < textChars.length) {
-            if (targetIndex == -1 || targetChars[targetIndex] == textChars[textIndex]) {
-                ++targetIndex;
-                ++textIndex;
-            } else targetIndex = next[targetIndex];
-        }
-        if (targetIndex == targetChars.length) return textIndex - targetIndex;
-        return -1;
+    public static void main(String[] args) {
+        System.out.println(new _07strStr().strStr("a", "a"));
     }
 
-    public int[] getNext(String target) {
-        char[] p = target.toCharArray();
-        int[] next = new int[p.length];
+    public int strStr(String haystack, String needle) {
+        if (haystack == null || needle == null) {
+            return -1;
+        }
+        if (needle.length() == 0) {
+            return 0;
+        }
+        if (haystack.length() == 0) {
+            return -1;
+        }
+        return kmp(haystack, needle);
+    }
+
+    public int kmp(String src, String target) {
+        if (src == null || target == null) {
+            return -1;
+        }
+        int[] next = getNext(target);
+        int i = 0, j = 0;
+        while (i < src.length()) {
+            if (j < target.length()) {
+                if (src.charAt(i) == target.charAt(j)) {
+                    j++;
+                    i++;
+                } else {
+                    j = next[j];
+                    if (j == -1) {
+                        j = 0;
+                        i++;
+                    }
+                }
+            } else {
+                return i - j;
+            }
+        }
+        return j < target.length() ? -1 : i - j;
+    }
+
+    private int[] getNext(String target) {
+        char[] chars = target.toCharArray();
+        int[] next = new int[chars.length];
         next[0] = -1;
         int j = 0;
         int k = -1;
-        while (j < p.length - 1) {
-            if (k == -1 || p[j] == p[k]) {
-                if (p[++j] == p[++k]) { // 当两个字符相等时要跳过
+        while (j < chars.length - 1) {
+            if (k == -1 || chars[j] == chars[k]) {
+                if (chars[++j] == chars[++k]) {
                     next[j] = next[k];
                 } else {
                     next[j] = k;
@@ -46,24 +60,7 @@ public class _07strStr {
                 k = next[k];
             }
         }
+
         return next;
-    }
-
-    private int[] getHelper(String parttern) {
-        if (parttern == null || parttern.length() < 2) {
-            return new int[]{-1};
-        }
-        int i = 0, j = 1;
-        int[] helper = new int[parttern.length()];
-        helper[0] = -1;
-        while (j < parttern.length()) {
-            if (parttern.charAt(i) == parttern.charAt(j)) {
-                i++;
-                j++;
-            }else {
-
-            }
-        }
-        return null;
     }
 }
