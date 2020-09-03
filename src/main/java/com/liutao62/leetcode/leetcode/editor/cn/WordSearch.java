@@ -44,7 +44,7 @@ public class WordSearch {
         String target = "ABCCED";
         System.out.println(solution.exist(board, target));
 
-        char[][] b = {{'c','a','a'},{'a','a','a'},{'b','c','d'}};
+        char[][] b = {{'c', 'a', 'a'}, {'a', 'a', 'a'}, {'b', 'c', 'd'}};
         String w = "aab";
         solution.exist(b, w);
     }
@@ -55,7 +55,7 @@ public class WordSearch {
             if (word == null || word.length() == 0) {
                 return true;
             }
-            if (board == null || board.length == 0) {
+            if (board == null || board.length == 0 || board[0].length == 0) {
                 return false;
             }
             char[] chars = word.toCharArray();
