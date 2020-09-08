@@ -7,6 +7,7 @@ package files
 
 kdiff3 ignore
 target/
+com/liutao62/leetcode/leetcode/editor/cn/*.json
 
 eclipse ignore
 .settings/
