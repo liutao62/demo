@@ -59,7 +59,7 @@ public class ReadFileToXml {
      * @description 设置 <attribute> 的属性值，位置写死了
      */
     private static String getAttribute(String line) {
-        StringBuffer sb = new StringBuffer(ATTRIBUTE_AFTER_TYPE);
+        StringBuilder sb = new StringBuilder(ATTRIBUTE_AFTER_TYPE);
         String[] split = line.split("\t");
         String type = split[2];
         int length = 50;
@@ -81,9 +81,8 @@ public class ReadFileToXml {
         // 如果有注释
         if (split.length > 3) {
             tem = split[3];
-            // 不符合条件快速跳出？？？
-            if (tem == null || tem.length() == 0) {
-            } else if ("Y".equals(tem) || "N".equals(tem) || "NULL".equals(tem)) {
+            // 懒得取反
+            if (tem == null || tem.length() == 0 || "Y".equals(tem) || "N".equals(tem) || "NULL".equals(tem)) {
             } else {
                 // 获取真正的注释
                 title = tem;
@@ -127,7 +126,7 @@ public class ReadFileToXml {
         return sb.toString();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         File srcFile = new File("C:/Users/liutao/Desktop/src");
 
         // 目标文件夹
@@ -135,8 +134,12 @@ public class ReadFileToXml {
         String fileName = null;
         BufferedWriter writer = null;
         BufferedReader bufferedReader = null;
+        InputStreamReader inputStreamReader = null;
+        FileInputStream fileInputStream = null;
         try {
-            bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(srcFile), "UTF-8"));
+            fileInputStream = new FileInputStream(srcFile);
+            inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
+            bufferedReader = new BufferedReader(inputStreamReader);
             String line;
             boolean end = true;
             while ((line = bufferedReader.readLine()) != null) {
@@ -180,9 +183,19 @@ public class ReadFileToXml {
             writer.flush();
             writer.close();
             bufferedReader.close();
-        } catch (UnsupportedEncodingException e) {
-        } catch (FileNotFoundException e) {
-        } catch (IOException e) {
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+            if (bufferedReader != null) {
+                bufferedReader.close();
+            }
+            if (inputStreamReader != null) {
+                inputStreamReader.close();
+            }
+            if (fileInputStream != null) {
+                fileInputStream.close();
+            }
         }
     }
 }
