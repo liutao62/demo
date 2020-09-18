@@ -142,6 +142,8 @@ public class ReadFileToXml {
             bufferedReader = new BufferedReader(inputStreamReader);
             String line;
             boolean end = true;
+            OutputStreamWriter outputStreamWriter = null;
+            FileOutputStream fileOutputStream = null;
             while ((line = bufferedReader.readLine()) != null) {
                 // 拆分每行数据的值
                 String[] split = line.split("\t");
@@ -159,14 +161,21 @@ public class ReadFileToXml {
                         writer.flush();
                         writer.close();
                     }
+                    if (outputStreamWriter != null) {
+                        outputStreamWriter.close();
+                    }
+                    if (fileOutputStream != null) {
+                        fileInputStream.close();
+                    }
                     String tableName = split[0];
                     Optional<String> reduce = Arrays.stream(tableName.split("_"))
                             .filter(v -> !"ts".equalsIgnoreCase(v)).reduce((a, b) -> a + b);
                     String name = reduce.get();
                     fileName = "hrjq." + name + ".xml";
                     // 开始写下一个新文件
-                    writer = new BufferedWriter(new OutputStreamWriter(
-                            new FileOutputStream(new File(targetDir + fileName)), "UTF-8"));
+                    fileOutputStream = new FileOutputStream(new File(targetDir + fileName));
+                    outputStreamWriter = new OutputStreamWriter(fileOutputStream, "UTF-8");
+                    writer = new BufferedWriter(outputStreamWriter);
                     String header = getHeader(tableName, name);
                     writer.write(header);
                     writer.flush();
