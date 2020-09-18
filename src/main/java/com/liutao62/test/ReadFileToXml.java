@@ -111,7 +111,7 @@ public class ReadFileToXml {
             case "timestamp":
                 return "Date";
             case "decimal":
-                return "BigDecimal";
+                return "Decimal";
             case "bigint":
                 return "Long";
             default:
