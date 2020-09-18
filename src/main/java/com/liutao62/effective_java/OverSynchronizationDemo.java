@@ -1,20 +1,22 @@
 package com.liutao62.effective_java;
 
-import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 
 /**
  * @author liutao
  * @date Created in 2020/9/16 23:38
- * @description
+ * @description 过度同步失去了并行的机会，需要确保多核下每个核都有一个一致的内存视图，限制 JVM 优化代码的能力。
+ * v1-v4 正确性选择 。yuequ
  */
 public class OverSynchronizationDemo {
     public static void main(String[] args) {
         ObservableSet<Integer> set = new ObservableSet<>(new HashSet<>());
-        /*
-        version1 直接取消观察者订阅
+//        version1 直接取消观察者订阅，导致异常
         set.addObserver(new SetObserver<Integer>() {
             @Override
             public void added(ObservableSet<Integer> set, Integer element) {
@@ -26,35 +28,37 @@ public class OverSynchronizationDemo {
                 }
             }
         });
-        */
 
-        set.addObserver(new SetObserver<Integer>() {
-            @Override
-            public void added(ObservableSet<Integer> set, Integer element) {
-                System.out.println(element);
 
-                if (element == 23) {
-                    ExecutorService service = Executors.newSingleThreadExecutor();
-                    final SetObserver<Integer> observer = this;
-                    try {
-                        service.submit(new Runnable() {
-                            @Override
-                            public void run() {
-                                // 企图锁定 observers 但是它无法获得该锁，因为主线程已经有锁了，
-                                // 但是主线程一直在等待后台线程完成对观察者的删除，即 if (element == 23) 里面的代码
-                                set.removeObserver(observer);
-                            }
-                        }).get();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException();
-                    } catch (ExecutionException e) {
-                        throw new RuntimeException();
-                    } finally {
-                        service.shutdown();
-                    }
-                }
-            }
-        });
+//        version2: 后台取消观察者订阅 死锁
+//        set.addObserver(new SetObserver<Integer>() {
+//            @Override
+//            public void added(ObservableSet<Integer> set, Integer element) {
+//                System.out.println(element);
+//
+//                if (element == 23) {
+//                    ExecutorService service = Executors.newSingleThreadExecutor();
+//                    final SetObserver<Integer> observer = this;
+//                    try {
+//                        // 观察者不使用后台线程！！！！
+//                        service.submit(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                // 企图锁定 observers 但是它无法获得该锁，因为主线程已经有锁了，
+//                                // 但是主线程一直在等待后台线程完成对观察者的删除，即 if (element == 23) 里面的代码
+//                                set.removeObserver(observer);
+//                            }
+//                        }).get();
+//                    } catch (InterruptedException e) {
+//                        throw new RuntimeException();
+//                    } catch (ExecutionException e) {
+//                        throw new RuntimeException();
+//                    } finally {
+//                        service.shutdown();
+//                    }
+//                }
+//            }
+//        });
 
 
         for (int i = 0; i < 100; i++) {
@@ -69,8 +73,11 @@ class ObservableSet<E> extends ForwardingSet<E> {
     public ObservableSet(Set<E> set) {
         super(set);
     }
+    // v1 v2 v3 用
+//    private final List<SetObserver<E>> observers = new ArrayList<>();
 
-    private final List<SetObserver<E>> observers = new ArrayList<>();
+    // version4：并发集合 CopyOnWriteArrayList ：ArrayList变体，重新拷贝底层数组，大量使用影响性能，适用于观察者模式
+    private final List<SetObserver<E>> observers = new CopyOnWriteArrayList<>();
 
     public void addObserver(SetObserver<E> observer) {
         synchronized (observers) {
@@ -85,10 +92,25 @@ class ObservableSet<E> extends ForwardingSet<E> {
     }
 
     private void notifyElementAdded(E element) {
-        synchronized (observers) {
-            for (SetObserver<E> observer : observers) {
-                observer.added(this, element);
-            }
+        // v1 v2 用
+//        synchronized (observers) {
+//            for (SetObserver<E> observer : observers) {
+//                observer.added(this, element);
+//            }
+//        }
+
+        // version3: 将外来方法的调用移出同步代码块，并使用快照来遍历
+//        List<SetObserver<E>> snapshot = null;
+//        synchronized (observers){
+//            snapshot = new ArrayList<>(observers);
+//        }
+//        for (SetObserver<E> observer : snapshot) {
+//            observer.added(this, element);
+//        }
+
+        // v4 用
+        for (SetObserver<E> observer : observers) {
+            observer.added(this, element);
         }
     }
 
