@@ -2,6 +2,7 @@ package com.liutao62;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -17,5 +18,24 @@ public class Demo {
 
         System.out.println(list1.stream().filter(k -> list.contains(k)).collect(Collectors.toList()));
         System.out.println(list2.stream().filter(k -> list.contains(k)).collect(Collectors.toList()));
+
+        User user1 = new User();
+        user1.id = "1111";
+        User user2 = new User();
+        user2.id = "1112";
+        User user3 = new User();
+        user3.id = "1113";
+        User[] users = {user1, user2, user3};
+        Map<String, User> map = Arrays.stream(users).collect(Collectors.toMap(User::getId, v -> v));
+        System.out.println(map);
+    }
+}
+
+class User {
+    public String id;
+    public String name;
+
+    public String getId() {
+        return id;
     }
 }
