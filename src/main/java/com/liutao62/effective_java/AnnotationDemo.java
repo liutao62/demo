@@ -17,6 +17,7 @@ import java.util.Optional;
  * @description
  */
 public class AnnotationDemo {
+    public String name ;
 
     public static void main(String[] args) throws Exception {
         Class<?> clz = Class.forName(AnnotationDemo.class.getName());
@@ -32,16 +33,18 @@ public class AnnotationDemo {
 
                 if (value == null || value.length == 0) {
                     method.invoke(o);
-                } else {
+                } else if ("SLKJL".equals(value[0])){
                     // 如果直接传数组会 wrong number of arguments
                     // String[] str 相当于一个 Object ，直接传一个数组过去就会参数列表不一致
-                    method.invoke(o, (Object) value);
+//                    method.invoke(o, (Object) value);
+                    method.invoke(o,new Object[]{new AnnotationDemo(),new AnnotationDemo(),new AnnotationDemo()});
                     continue;
                 }
                 // 数组也相当于可变参数，所以不 continue 会报错
                 if (method.isVarArgs()) {
                     method.invoke(o, value);
                 }
+
             }
         }
     }
@@ -66,6 +69,11 @@ public class AnnotationDemo {
     public void varArgsTest(String... arr) {
         Optional<String> reduce = Arrays.stream(arr).reduce((s1, s2) -> s1 + s2);
         System.out.println(reduce.get());
+    }
+
+    @MyTest("SLKJL")
+    public void args(String id, String name, String age) {
+        System.out.println(id + name + age);
     }
 }
 

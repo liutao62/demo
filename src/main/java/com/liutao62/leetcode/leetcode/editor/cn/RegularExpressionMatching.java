@@ -63,7 +63,7 @@ package com.liutao62.leetcode.leetcode.editor.cn;
 public class RegularExpressionMatching {
     public static void main(String[] args) {
         Solution solution = new RegularExpressionMatching().new Solution();
-        String s = "aab", p = "c*a*b";
+        String s = "aa", p = "a*";
         System.out.println(solution.isMatch(s, p));
     }
 
@@ -73,46 +73,57 @@ public class RegularExpressionMatching {
             if (s == null || p == null) {
                 return false;
             }
-            if (s.length() == 0 && (p.length() == 0 || verify(p))) {
-                return true;
-            }
             return this.isMatchHelper(s.toCharArray(), p.toCharArray());
-        }
-
-        private boolean verify(String p) {
-            for (int i = 0; i < p.length(); i++) {
-                if (p.charAt(i) != '.' && p.charAt(i) != '*') {
-                    return false;
-                }
-            }
-            return true;
         }
 
         private boolean isMatchHelper(char[] s, char[] p) {
             if (s.length == 0) {
                 return false;
             }
-            for (int i = 0, j = i; i < s.length; ) {
-                if (p.length < j + 1) {
-                    return false;
-                }
-                if (s[i] == p[j] || (p[j] == '.' && p[j - 1] == s[i])) {
+            int i = 0, j = i;
+            while (i < s.length && j < p.length) {
+                if (s[i] == p[j] || p[j] == '.') {
                     i++;
                     j++;
                 } else if (p[j] == '*') {
-                    if (p.length - i > s.length - i) {
-                        j++;
-                    } else if (p.length - i < s.length - i) {
+                    if (p[j - 1] == s[i] || p[j - 1] == '.') {
                         i++;
                     } else {
-                        i++;
                         j++;
                     }
+                } else if (j < p.length - 1 && p[++j] == '*') {
+                    j++;
                 } else {
                     return false;
                 }
             }
-            return true;
+            return ((j == p.length - 1 && p[p.length - 1] == '*') || j == p.length) && i == s.length;
+
+
+//            if (s.length == 0) {
+//                return false;
+//            }
+//            for (int i = 0, j = i; i < s.length; ) {
+//                if (p.length < j + 1) {
+//                    return false;
+//                }
+//                if (s[i] == p[j] || (p[j] == '.' && p[j - 1] == s[i])) {
+//                    i++;
+//                    j++;
+//                } else if (p[j] == '*') {
+//                    if (p.length - i > s.length - i) {
+//                        j++;
+//                    } else if (p.length - i < s.length - i) {
+//                        i++;
+//                    } else {
+//                        i++;
+//                        j++;
+//                    }
+//                } else {
+//                    return false;
+//                }
+//            }
+//            return true;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
