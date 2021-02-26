@@ -11,7 +11,7 @@ public class SleepUtils {
         try {
             Thread.sleep(i);
         } catch (InterruptedException e) {
-
+            System.out.println("thread is interrupted");
         }
     }
 }
