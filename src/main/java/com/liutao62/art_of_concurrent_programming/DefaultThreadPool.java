@@ -111,6 +111,7 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> 
                 }
                 if (job != null) {
                     try {
+                        System.out.println(Thread.currentThread().getName());
                         job.run();
                     } catch (Exception ex) {
                         // 忽略Job执行中的Exception
@@ -121,22 +122,5 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> 
         public void shutdown() {
             running = false;
         }
-    }
-
-
-    public static void main(String[] args) {
-        A<Double> a = new B<>();
-    }
-}
-
-interface A<T>{
-    T sayHi();
-}
-
-class B<T> implements A<T> {
-
-    @Override
-    public T sayHi() {
-        return null;
     }
 }

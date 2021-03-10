@@ -11,9 +11,9 @@ import java.net.Socket;
  */
 public class SimpleHttpServer {
     // 处理HttpRequest的线程池
-    static ThreadPool<HttpRequestHandler> threadPool = new DefaultThreadPool<>(1);
+    static ThreadPool<HttpRequestHandler> threadPool = new DefaultThreadPool<>(10);
     // SimpleHttpServer的根路径
-    static String basePath;
+    static String basePath = "";
     static ServerSocket serverSocket;
     // 服务监听端口
     static int port = 8080;
@@ -41,7 +41,6 @@ public class SimpleHttpServer {
         Socket socket = null;
         while ((socket = serverSocket.accept()) != null) {
             // 接收一个客户端Socket，生成一个HttpRequestHandler，放入线程池执行
-            System.out.println("----------------" + socket);
             threadPool.execute(new HttpRequestHandler(socket));
         }
         serverSocket.close();
@@ -92,12 +91,13 @@ public class SimpleHttpServer {
                     out.println("Content-Type: text/html; charset=UTF-8");
                     out.println("");
 
-                    out.println("<html>Nihao</html>");
+                    out.println("<html>hello world</br><h1>hello world</h1></html>");
 //                    while ((line = br.readLine()) != null) {
 //                        out.println(line);
 //                    }
                 }
                 out.flush();
+//                SleepUtils.second(1000);
             } catch (Exception ex) {
                 out.println("HTTP/1.1 500");
                 out.println("");

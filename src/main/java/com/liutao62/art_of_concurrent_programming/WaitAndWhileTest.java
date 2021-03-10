@@ -9,7 +9,8 @@ public class WaitAndWhileTest {
     public static void main(String[] args) {
         Object o = new Object();
 //        whileMethod(o);
-        waitMethod(o);
+//        waitMethod(o);
+        System.out.println(16 >>> 16);
     }
 
     static void whileMethod(Object obj) {
