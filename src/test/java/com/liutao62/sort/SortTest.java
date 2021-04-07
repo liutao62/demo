@@ -9,7 +9,7 @@ import java.util.Random;
 public class SortTest {
 
     Sort sort = new Sort();
-    int size = 10;
+    int size = 20;
     private int[] array = new int[size];
 
     @Before
@@ -17,9 +17,9 @@ public class SortTest {
         Random rand = new Random();
         for (int i = 0; i < size; i++) {
             array[i] = rand.nextInt(size);
-            System.out.print(array[i] + " ");
+//            System.out.print(array[i] + " ");
         }
-        System.out.println();
+//        System.out.println();
     }
 
     @After
@@ -29,22 +29,22 @@ public class SortTest {
 
     @Test
     public void bubbleSort() {
-        sort.bubbleSort(array);
+//        sort.bubbleSort(array);
     }
 
     @Test
     public void selectedSort() {
-        sort.selectedSort(array);
+//        sort.selectedSort(array);
     }
 
     @Test
     public void insertSort() {
-        sort.insertSort(array);
+//        sort.insertSort(array);
     }
 
     @Test
     public void shellSort() {
-        sort.insertSort(array);
+        sort.shellSort(array);
     }
 
     @Test
@@ -64,8 +64,8 @@ public class SortTest {
 
     @After
     public void after() {
-        for (int i : array) {
-            System.out.print(i + " ");
-        }
+//        for (int i : array) {
+//            System.out.print(i + " ");
+//        }
     }
 }

@@ -10,7 +10,7 @@ public class Sort {
         for (int i = (array.length >> 1) - 1; i >= 0; i--) {
             adjustHeap(array, i, array.length);
         }
-        // 下面，开始排序逻辑
+        // 开始排序逻辑
         for (int j = array.length - 1; j > 0; j--) {
             swap(array, 0, j);
             // 将已交换的当前最大数排除并重新构建大堆顶
