@@ -1,4 +1,4 @@
-package com.liutao62.leetcode;
+package com.liutao62.leetcode.left2right;
 
 import java.util.ArrayList;
 import java.util.HashSet;
