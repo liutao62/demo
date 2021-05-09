@@ -9,6 +9,14 @@ public class SleepUtils {
 
     public static void second(long i) {
         try {
+            Thread.sleep(i * 1000);
+        } catch (InterruptedException e) {
+            System.out.println("thread is interrupted");
+        }
+    }
+
+    public static void millisecond(long i) {
+        try {
             Thread.sleep(i);
         } catch (InterruptedException e) {
             System.out.println("thread is interrupted");
