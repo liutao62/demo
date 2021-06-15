@@ -6,10 +6,10 @@ public class _146LRUCache {
 
     // 双链表的节点
     private class Node {
-        Integer key, val;
+        int key, val;
         Node next, pre;
 
-        Node(Integer key, Integer val, Node pre, Node next) {
+        Node(int key, int val, Node pre, Node next) {
             this.key = key;
             this.val = val;
             this.pre = pre;
@@ -17,37 +17,42 @@ public class _146LRUCache {
         }
     }
 
-    private Node head = new Node(null, null, null, null);
+    private Node head = new Node(-1, -1, null, null);
     private HashMap<Integer, Node> map = new HashMap<>();
 
     /**
-     * @author razertory
-     * @date 2019/1/2
+     * @param cur
      * @description 移动成为头指针, 如果当前指针和头指针一样，则让头指针移动到前面
      */
     private void move2Head(Node cur) {
         if (cur == head) {
-            head = head.pre;
+            return;
+        } else if (cur == head.pre) {
+            head = cur;
             return;
         }
+
+        // 处理前后节点
         cur.pre.next = cur.next;
         cur.next.pre = cur.pre;
 
-        cur.next = head.next;
-        cur.next.pre = cur;
-        head.next = cur;
-        cur.pre = head;
+        // 移动到头节点
+        cur.next = head;
+        cur.pre = head.pre;
+        head.pre.next = cur;
+        head.pre = cur;
+
+        head = cur;
     }
 
     /**
-     * @author razertory
-     * @date 2019/1/2
+     * @param capacity
      * @description 初始化一个空的双向链表环 -1 表示没有值
      */
     _146LRUCache(int capacity) {
         Node cur = head;
         for (int i = 0; i < capacity - 1; i++) {
-            cur.next = new Node(null, null, cur, null);
+            cur.next = new Node(-1, -1, cur, null);
             cur = cur.next;
         }
         cur.next = head;
@@ -55,7 +60,9 @@ public class _146LRUCache {
     }
 
     int get(int key) {
-        if (!map.containsKey(key)) return -1;
+        if (!map.containsKey(key)) {
+            return -1;
+        }
         Node node = map.get(key);
         move2Head(node);
         return node.val;
@@ -67,11 +74,14 @@ public class _146LRUCache {
             node.val = val;
             move2Head(node);
         } else {
-            if (head.val != null) map.remove(head.key);
-            head.key = key;
-            head.val = val;
-            map.put(key, head);
-            head = head.pre;
+            Node pre = head.pre;
+            if (pre.val != -1) {
+                map.remove(pre.key);
+            }
+            pre.key = key;
+            pre.val = val;
+            map.put(key, pre);
+            head = pre;
         }
     }
 }
