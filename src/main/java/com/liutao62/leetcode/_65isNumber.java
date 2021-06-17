@@ -1,4 +1,4 @@
-package com.liutao62;
+package com.liutao62.leetcode;
 
 /**
  * @author liutao
