@@ -11,7 +11,23 @@ public class ListNode {
         val = x;
     }
 
+    public ListNode(int... x) {
+        val = x[0];
+        ListNode temp = this;
+        for (int i = 1; i < x.length; i++) {
+            temp.next = new ListNode(x[i]);
+            temp = temp.next;
+        }
+    }
+
     public String toString() {
-        return "node " + this.val;
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.val);
+        ListNode temp = this.next;
+        while (temp != null) {
+            sb.append("->" + temp.val);
+            temp = temp.next;
+        }
+        return sb.toString();
     }
 }
