@@ -1,8 +1,5 @@
 package com.liutao62.leetcode;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author liutao
  * @date Created in 2020/6/20 22:06
@@ -16,23 +13,23 @@ public class _53maxSubArray {
      * @return
      */
     public static int maxSubArray(int[] nums) {
-        List list = new ArrayList();
-        if (nums == null || nums.length == 0) return 0;
-        int[] maxValue = new int[nums.length];
-        int max;
-        int j = 0;
-        for (int i = 0; i < nums.length; i++) {
-            max = 0;
-            j = 0;
-            for (; j <= i; j++) {
-                max += nums[i];
+        int ans = nums[0];
+        int sum = 0;
+        for (int num : nums) {
+            // 如果大于 0 可以继续尝试
+            if (sum > 0) {
+                sum += num;
+            } else {
+                // 如果小于 0 说明上一个 区间的计算可以舍弃了，重新开始
+                sum = num;
             }
-            maxValue[j - 1] = max < maxValue[j - 1] ? maxValue[j - 1] : max;
+            ans = Math.max(ans, sum);
         }
-        max = Integer.MIN_VALUE;
-        for (int i = 0; i < maxValue.length; i++) {
-            max = max < maxValue[i] ? maxValue[i] : max;
-        }
-        return max;
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        int i = new _53maxSubArray().maxSubArray(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4});
+        System.out.println(i);
     }
 }
