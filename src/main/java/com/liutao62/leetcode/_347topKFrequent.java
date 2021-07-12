@@ -17,9 +17,7 @@ public class _347topKFrequent {
             return map.get(a) - map.get(b);
         });
 
-        map.entrySet().forEach(entry -> {
-            Integer key = entry.getKey();
-            Integer value = entry.getValue();
+        map.keySet().forEach(key -> {
             if (priorityQueue.size() < k) {
                 priorityQueue.add(key);
             } else if (map.get(key) > map.get(priorityQueue.peek())) {
