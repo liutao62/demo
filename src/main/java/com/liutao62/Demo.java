@@ -5,9 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author liutao
@@ -16,97 +19,49 @@ import java.util.stream.Collectors;
  */
 public class Demo {
     public static void main(String[] args) throws IOException {
-        String sql = "SELECT ss_staff_job.enddate ss_staff_jobb_enddate, ss_staff_job.deptid deptid, ss_staff_job.endflag ss_staff_joba_endflag, ss_staff_job.id ss_staff_job_id, ss_staff_job.jobrankid ss_staff_jobb_jobrankid, ss_staff_job.postid postid, ss_staff_job.begindate ss_staff_jobb_begindate, ss_staff_job.orgid orgid, ss_staff_job.showorder ss_staff_jobb_showorder, ss_staff_job.ismainjob ismainjob, ss_staff_orgrel.enddate ss_staff_orgrel_enddate, ss_staff_orgrel.begindate ss_staff_orgrel_begindate, bd_staff.email email, bd_staff.mobile mobile, bd_staff.birthdate birthdate, bd_staff.photo photo, bd_staff.name name, bd_staff.user_id user_id, bd_staff.sex sex, bd_staff.code code, bd_staff.enable bd_staffb_enable, bd_staff.tenantid bd_staffa_tenantid, bd_staff.id bd_staffb_id, bd_staff.id staffId, bd_psnl_catg.name psnclname, bd_position.name postname, org_adminj.name corpname, org_admin.name deptname, ss_staff_ctrt.id ss_staff_ctrt_id FROM corehr.ss_staff_job LEFT OUTER JOIN corehr.ss_staff_orgrel ss_staff_orgrel ON ss_staff_orgrel.id = ss_staff_job.orgrelid LEFT OUTER JOIN iuap_cloud_basedoc.bd_staff bd_staff ON ss_staff_orgrel.staff_id = bd_staff.id LEFT OUTER JOIN iuap_cloud_basedoc.bd_psnl_catg bd_psnl_catg ON ss_staff_job.psnclid = bd_psnl_catg.id LEFT OUTER JOIN iuap_cloud_basedoc.bd_duty bd_duty ON ss_staff_job.jobid = bd_duty.id LEFT OUTER JOIN iuap_cloud_basedoc.bd_position bd_position ON ss_staff_job.postid = bd_position.id LEFT OUTER JOIN iuap_cloud_basedoc.bd_staff bd_stafff ON ss_staff_job.rptrel = bd_stafff.id LEFT OUTER JOIN corehr.cs_chgtype cs_chgtype ON ss_staff_job.trnstype = cs_chgtype.id LEFT OUTER JOIN iuap_cloud_basedoc.org_admin org_admin ON ss_staff_job.deptid = org_admin.id LEFT OUTER JOIN iuap_cloud_basedoc.org_admin org_adminj ON ss_staff_job.orgid = org_adminj.id LEFT OUTER JOIN corehr.ss_staff_ctrt ss_staff_ctrt on ss_staff_job.staff_id = ss_staff_ctrt.staff_id and ss_staff_ctrt.lastflag = 1 where bd_staff.tenantid = ? and ss_staff_job.deptid in(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) and ss_staff_job.endflag=? and ss_staff_ctrt.conttype in(?,?,?) and bd_staff.id not in(?,?,?,?,?,?,?,?,?,?,?) and ss_staff_job.lastflag=? and ss_staff_orgrel.indocflag=? and bd_staff.tenantid=? and bd_staff.dr=? and ss_staff_orgrel.dr=? and ss_staff_job.dr=? and bd_staff.enable=?";
-        String param = "cxxtjbjy(String), 1730738408755456(String), 1730740744343808(String), 1716612005220608(String), 1716612880273664(String), 1716613108732160(String), 1716613128802560(String), 1716613115957504(String), 1716613151265024(String), 1716613239591168(String), 1716613156622592(String), 1716613166059776(String), 1716613171941632(String), 1716613176905984(String), 1716613213294848(String), 1716613228777728(String), 1716613223633152(String), 1716613217849600(String), 1716613123002624(String), 1716613133750528(String), 1716613145678080(String), 1716613139042560(String), 1716613182148864(String), 1716613193797888(String), 1716613198467328(String), 1716613208527104(String), 1716613187440896(String), 1716613203136768(String), 1716612144697600(String), 1716611000176896(String), 1716611017429248(String), 1716611010121984(String), 0(Integer), 1(Integer), 2(Integer), 3(Integer), 1797023750902016(String), 1762084218327296(String), 1759143299125504(String), 1808637417787648(String), 1717952316510464(String), 1759110318461184(String), 1716518340481280(String), 1759099850117376(String), 1759146850717952(String), 1848753164964096(String), 1747689995112704(String), 1(Integer), 1(Integer), cxxtjbjy(String), 0(Integer), 0(Integer), 0(Integer), 1(Integer)";
+        String sql = "(SELECT address_detail,attend_range,attendance_type,creationtime,creator,dept_id,dept_name,id,import_instructions,in_and_out_type,isoutside,modifiedtime,modifier,org_id,org_name,place_id,place_name,place_type,sign_type,signdate,signtime,staff_code,staff_id,staff_name,tenantid,ts,ytenant_id FROM ts_attend_record_total_2021 WHERE tenantid=? AND signtime>=? and signtime<=? and dept_id in(?,?,?,?,?,?,?,?,?,?,?) ORDER BY dept_id DESC,staff_id DESC,signdate DESC,signtime DESC) UNION (SELECT address_detail,attend_range,attendance_type,creationtime,creator,dept_id,dept_name,id,import_instructions,in_and_out_type,isoutside,modifiedtime,modifier,org_id,org_name,place_id,place_name,place_type,sign_type,signdate,signtime,staff_code,staff_id,staff_name,tenantid,ts,ytenant_id FROM ts_attend_record_total WHERE tenantid=? AND signtime>=? and signtime<=? and dept_id in(?,?,?,?,?,?,?,?,?,?,?) ORDER BY dept_id DESC,staff_id DESC,signdate DESC,signtime DESC)";
+        String param = "ve8zdg1u(String), 2021-06-17(String), 2021-07-17 23:59:59(String), 2271566525911296(String), 2254218859991296(String), 2293753674109184(String), 2233227016687872(String), 2254218171519232(String), 2271566907134208(String), 2293784615113216(String), 2342179009843456(String), 2254217547124992(String), 2271559783584000(String), 2253397195510016(String), ve8zdg1u(String), 2021-06-17(String), 2021-07-17 23:59:59(String), 2271566525911296(String), 2254218859991296(String), 2293753674109184(String), 2233227016687872(String), 2254218171519232(String), 2271566907134208(String), 2293784615113216(String), 2342179009843456(String), 2254217547124992(String), 2271559783584000(String), 2253397195510016(String)";
 
         // if dbtype == null mysql else oracle
         String s = replaceSql(sql, param, null);
         System.out.println(s);
 
-        String u = null;
-
+        Class<Admin> userClass = Admin.class;
+        Annotation[] annotations = userClass.getAnnotations();
 //        builerMethod();
 
+
+        System.out.println("----------------sort before");
+
+        List<AttendRecord> attendRecords = Stream.of(
+                new AttendRecord().setSigndate(new Date(1626969600000l)).setSigntime(new Date(10774000)),
+                new AttendRecord().setSigndate(new Date(1626883200000l)).setSigntime(new Date(14379000)),
+                new AttendRecord().setSigndate(new Date(1626883200000l)).setSigntime(new Date(7179000)),
+                new AttendRecord().setSigndate(new Date(1626883200000l)).setSigntime(new Date(57579000)),
+                new AttendRecord().setSigndate(new Date(1626969600000l)).setSigntime(new Date(57039000)),
+                new AttendRecord().setSigndate(new Date(1626969600000l)).setSigntime(new Date(21039000)),
+                new AttendRecord().setSigndate(new Date(1626969600000l)).setSigntime(new Date(3039000))
+        ).collect(Collectors.toList());
+        attendRecords.forEach(System.out::println);
+        System.out.println("----------------sort after");
+
+        attendRecords = Stream.of(
+                new AttendRecord().setSigndate(new Date(1626969600000l)).setSigntime(new Date(10774000)),
+                new AttendRecord().setSigndate(new Date(1626883200000l)).setSigntime(new Date(14379000)),
+                new AttendRecord().setSigndate(new Date(1626883200000l)).setSigntime(new Date(7179000)),
+                new AttendRecord().setSigndate(new Date(1626883200000l)).setSigntime(new Date(57579000)),
+                new AttendRecord().setSigndate(new Date(1626969600000l)).setSigntime(new Date(57039000)),
+                new AttendRecord().setSigndate(new Date(1626969600000l)).setSigntime(new Date(21039000)),
+                new AttendRecord().setSigndate(new Date(1626969600000l)).setSigntime(new Date(3039000))
+        ).peek(recored -> recored.setSigndate(null)).collect(Collectors.toList());
+
+        attendRecords.forEach(System.out::println);
+
+
+
+
     }
 
-    private static void builerMethod() throws IOException {
-        File srcFile = new File("C:/Users/liutao/Desktop/new");
-        File srcFile1 = new File("C:\\Users\\liutao\\Documents\\WeChat Files\\wxid_dws526u8ijvf22\\FileStorage\\File\\2021-01\\qq.txt");
-
-        BufferedReader bufferedReader = null;
-        InputStreamReader inputStreamReader = null;
-        FileInputStream fileInputStream = null;
-        List<Admin> list = new ArrayList<>();
-        List<String> orgs = new ArrayList<>();
-        List<String> depts = new ArrayList<>();
-        List<String> scopeOrgIds = new ArrayList<>();
-        try {
-            fileInputStream = new FileInputStream(srcFile);
-            inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
-            bufferedReader = new BufferedReader(inputStreamReader);
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                // 拆分每行数据的值
-                String[] split = line.split("\t");
-                list.add(new Admin(split[0], split[1]));
-            }
-            // 如果已经读取到末尾，写入 FOOTER 信息并关闭流
-            bufferedReader.close();
-
-            fileInputStream = new FileInputStream(srcFile1);
-            inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
-            bufferedReader = new BufferedReader(inputStreamReader);
-            int count = 0;
-            while ((line = bufferedReader.readLine()) != null) {
-                // 拆分每行数据的值
-                line.trim();
-                String[] split = line.split(",");
-                if (count == 0) {
-                    orgs = Arrays.asList(split);
-                } else if (count == 1) {
-                    depts = Arrays.asList(split);
-                } else {
-                    scopeOrgIds = Arrays.asList(split);
-                }
-                count++;
-            }
-            // 如果已经读取到末尾，写入 FOOTER 信息并关闭流
-            bufferedReader.close();
-        } finally {
-            if (bufferedReader != null) {
-                bufferedReader.close();
-            }
-            if (inputStreamReader != null) {
-                inputStreamReader.close();
-            }
-            if (fileInputStream != null) {
-                fileInputStream.close();
-            }
-        }
-        Map<String, String> idInnercodeMap = list.stream().filter(org -> org.getInnercode() != null)
-                .collect(Collectors.toMap(Admin::getId, Admin::getInnercode, (k1, k2) -> k1));
-
-        for (String otherSchemeScopeOrg : scopeOrgIds) {
-            String innerCode = idInnercodeMap.get(otherSchemeScopeOrg);
-
-            orgs = orgs.stream().filter(orgId -> !idInnercodeMap.get(orgId).startsWith(innerCode))
-                    .collect(Collectors.toList());
-            // 人员所属组织和部门跨方案的时候可能查不出来。取消过滤。需要权限的话后面再取交集减少 deptId 数量
-//			depts = depts.stream().filter(deptId -> !idInnercodeMap.get(deptId).startsWith(innerCode))
-//					.collect(Collectors.toList());
-        }
-
-        System.out.println("---------------");
-        System.out.println(orgs);
-        System.out.println("---------------");
-
-        System.out.println("god ning niupi");
-    }
-
-    public static String test(Boolean b) {
-        b = true;
-        return "";
-    }
 
 
     /**
@@ -165,31 +120,25 @@ public class Demo {
 
         return sql;
     }
-
-    public static final Map<String, String> BILL_STATUS_MAP = new HashMap<>();
-
-    static {
-        BILL_STATUS_MAP.put("1", "P_YS_SCM_PU_0000027756"/* "未提交"*/);
-        BILL_STATUS_MAP.put("2", "P_YS_SCM_PU_0000028700"/* "已提交"*/);
-        BILL_STATUS_MAP.put("3", "P_YS_OA_XTLCZX_0000030417"/* "审批中"*/);
-        BILL_STATUS_MAP.put("4", "P_YS_OA_XTLCZX_0000030544"/* "审批通过"*/);
-        BILL_STATUS_MAP.put("5", "P_YS_HR_HRJQ_0000031266"/* "审批不通过"*/);
-        BILL_STATUS_MAP.put("12", "P_YS_HR_HRJQ_0000031063"/* "已驳回"*/);
-        BILL_STATUS_MAP.put("14", "P_YS_HR_HRJQ_0000031056"/* "已撤回"*/);
-    }
 }
 
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
-class User {
-    String name;
-    String sex;
+class AttendRecord {
+    Date signdate;
+    Date signtime;
+
+    @Override
+    public String toString() {
+        return new Date(signdate.getTime() + signtime.getTime()).toLocaleString();
+    }
 }
 
 @Data
 @Accessors(chain = true)
 @AllArgsConstructor
+@MyAnnotation
 class Admin {
     String id;
     String innercode;
