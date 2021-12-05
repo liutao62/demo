@@ -6,11 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author liutao
@@ -25,40 +21,6 @@ public class Demo {
         // if dbtype == null mysql else oracle
         String s = replaceSql(sql, param, null);
         System.out.println(s);
-
-        Class<Admin> userClass = Admin.class;
-        Annotation[] annotations = userClass.getAnnotations();
-//        builerMethod();
-
-
-        System.out.println("----------------sort before");
-
-        List<AttendRecord> attendRecords = Stream.of(
-                new AttendRecord().setSigndate(new Date(1626969600000l)).setSigntime(new Date(10774000)),
-                new AttendRecord().setSigndate(new Date(1626883200000l)).setSigntime(new Date(14379000)),
-                new AttendRecord().setSigndate(new Date(1626883200000l)).setSigntime(new Date(7179000)),
-                new AttendRecord().setSigndate(new Date(1626883200000l)).setSigntime(new Date(57579000)),
-                new AttendRecord().setSigndate(new Date(1626969600000l)).setSigntime(new Date(57039000)),
-                new AttendRecord().setSigndate(new Date(1626969600000l)).setSigntime(new Date(21039000)),
-                new AttendRecord().setSigndate(new Date(1626969600000l)).setSigntime(new Date(3039000))
-        ).collect(Collectors.toList());
-        attendRecords.forEach(System.out::println);
-        System.out.println("----------------sort after");
-
-        attendRecords = Stream.of(
-                new AttendRecord().setSigndate(new Date(1626969600000l)).setSigntime(new Date(10774000)),
-                new AttendRecord().setSigndate(new Date(1626883200000l)).setSigntime(new Date(14379000)),
-                new AttendRecord().setSigndate(new Date(1626883200000l)).setSigntime(new Date(7179000)),
-                new AttendRecord().setSigndate(new Date(1626883200000l)).setSigntime(new Date(57579000)),
-                new AttendRecord().setSigndate(new Date(1626969600000l)).setSigntime(new Date(57039000)),
-                new AttendRecord().setSigndate(new Date(1626969600000l)).setSigntime(new Date(21039000)),
-                new AttendRecord().setSigndate(new Date(1626969600000l)).setSigntime(new Date(3039000))
-        ).peek(recored -> recored.setSigndate(null)).collect(Collectors.toList());
-
-        attendRecords.forEach(System.out::println);
-
-
-
 
     }
 
