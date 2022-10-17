@@ -21,7 +21,23 @@ public class _78subsets {
         path.add(nums[left]);
         dfs(result, left + 1, right, new ArrayList<>(path), nums);
     }
+    public boolean exist(char[][] board, String word) {
+        return dfs(board, word, "", 0, 0);
+    }
 
+    private boolean dfs(char[][] board, String target, String path, int i, int j) {
+        if (target.equals(path)) {
+            return true;
+        }
+        if (i < 0 || j < 0 || i > board.length - 1 || j > board[i].length - 1) {
+            return false;
+        }
+        return dfs(board, target, path + board[i][j], i + 1, j)
+                || dfs(board, target, path + board[i][j], i, j + 1)
+                || dfs(board, target, path + board[i][j], i - 1, j)
+                || dfs(board, target, path + board[i][j], i, j - 1);
+
+    }
     public static void main(String[] args) {
         List<List<Integer>> subsets = new _78subsets().subsets(new int[]{1, 2, 3});
         System.out.println(subsets);

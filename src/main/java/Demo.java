@@ -1,7 +1,12 @@
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.UUID;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import lombok.Data;
+
+import java.io.FileReader;
+import java.lang.invoke.MethodHandles;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author liutao
@@ -9,43 +14,40 @@ import java.util.UUID;
  * @description
  */
 public class Demo {
-    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        int count = 100;
+    private static final int GIFT_SIZE = 10;
 
-        System.out.println("---------------- 初始化hashMap容量为100 ------------");
-        int resizeCount = 0;
-        HashMap<Integer, Object> map = new HashMap<>(count,1);
-        Method capacityMethod = map.getClass().getDeclaredMethod("capacity");
-        capacityMethod.setAccessible(true);
-        int capacity = (int) capacityMethod.invoke(map);
-        System.out.println("初始容量：" + capacity);
-        for (int i = 0; i < count; i++) {
-            map.put(i, UUID.randomUUID());
-            int curCapacity = (int) capacityMethod.invoke(map);
-            if (curCapacity > capacity) {
-                System.out.println("当前容量：" + curCapacity);
-                resizeCount++;
-                capacity = curCapacity;
-            }
-        }
-        System.out.println("hashMap扩容次数：" + resizeCount);
+    public static void main(String[] args) {
+        // 1_141526_524_main.json 1_141526_287.json 2_141529_814.json
+        List<String> fileList = Arrays.asList("1_141526_524_main.json", "1_141526_287.json", "2_141529_814.json", "2_141529_488_main.json");
+        fileList.forEach(fileName -> {
+            StringBuilder builder = new StringBuilder();
+            try (FileReader fileReader = new FileReader("/Users/liutao/Downloads/" + fileName)) {
+                int read;
+                while ((read = fileReader.read()) != -1) {
+                    builder.append((char) read);
+                }
+            } catch (Exception e) {
 
-        System.out.println("---------------- 不初始化hashMap容量 -------------------");
-        resizeCount = 0;
-        HashMap<Integer, Object> map1 = new HashMap<>();
-        Method capacityMethod1 = map1.getClass().getDeclaredMethod("capacity");
-        capacityMethod1.setAccessible(true);
-        int capacity1 = (int) capacityMethod1.invoke(map1);
-        System.out.println("初始容量：" + capacity1);
-        for (int i = 0; i < count; i++) {
-            map1.put(i, UUID.randomUUID());
-            int curCapacity = (int) capacityMethod1.invoke(map1);
-            if (curCapacity > capacity1) {
-                System.out.println("当前容量：" + curCapacity);
-                resizeCount++;
-                capacity1 = curCapacity;
             }
-        }
-        System.out.println("扩容次数：" + resizeCount);
+            List<Record> records = JSONArray.parseArray(builder.toString(), Record.class);
+            List<Record> collect = records.stream().filter(record -> "20162".equals(record.staffCode) || "20104".equals(record.staffCode)).collect(Collectors.toList());
+            System.out.println(collect);
+            System.out.println("deal finish file name = " + fileName);
+        });
+
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+//        lookup.fi
+
+    }
+
+}
+
+@Data
+class Record {
+    String staffCode, date, time;
+
+    @Override
+    public String toString() {
+        return JSONObject.toJSONString(this);
     }
 }

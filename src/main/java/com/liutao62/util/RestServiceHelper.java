@@ -216,6 +216,7 @@ public final class RestServiceHelper {
                     ((HttpMessageConverter<Object>) messageConverter).write(requestBody, requestContentType, request);
                     return;
                 }
+
                 String message = "Could not write request: no suitable HttpMessageConverter found for request type [" + requestType.getName() + "]";
                 if (requestContentType != null) {
                     message += " and content type [" + requestContentType + "]";

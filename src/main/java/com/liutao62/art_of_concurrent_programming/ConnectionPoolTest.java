@@ -17,13 +17,13 @@ public class ConnectionPoolTest {
     static CountDownLatch end;
     public static void main(String[] args) throws Exception {
 // 线程数量，可以修改线程数量进行观察
-        int threadCount = 20;
+        int threadCount = 5;
         end = new CountDownLatch(threadCount);
         int count = 20;
         AtomicInteger got = new AtomicInteger();
         AtomicInteger notGot = new AtomicInteger();
         for (int i = 0; i < threadCount; i++) {
-            System.out.println(i);
+            System.out.println("start thread " + i);
             Thread thread = new Thread(new ConnetionRunner(count, got, notGot),
                     "ConnectionRunnerThread");
             thread.start();
