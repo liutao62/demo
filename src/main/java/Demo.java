@@ -1,12 +1,8 @@
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import lombok.Data;
-
-import java.io.FileReader;
-import java.lang.invoke.MethodHandles;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.io.*;
+import java.util.Objects;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 /**
  * @author liutao
@@ -16,38 +12,48 @@ import java.util.stream.Collectors;
 public class Demo {
     private static final int GIFT_SIZE = 10;
 
-    public static void main(String[] args) {
-        // 1_141526_524_main.json 1_141526_287.json 2_141529_814.json
-        List<String> fileList = Arrays.asList("1_141526_524_main.json", "1_141526_287.json", "2_141529_814.json", "2_141529_488_main.json");
-        fileList.forEach(fileName -> {
-            StringBuilder builder = new StringBuilder();
-            try (FileReader fileReader = new FileReader("/Users/liutao/Downloads/" + fileName)) {
-                int read;
-                while ((read = fileReader.read()) != -1) {
-                    builder.append((char) read);
+    public static void main(String[] args) throws Exception {
+        // 解压后的最新 esn 文件（不带后缀）放在此目录下即可
+        String outputPath = "/Users/liutao/Downloads/android-log";
+        File outZipPath = new File(outputPath);
+//        zipContraMultiFile("/Users/liutao/Downloads/esnlog (1).zip", outputPath);
+        for (String f : Objects.requireNonNull(outZipPath.list())) {
+            File logFile = new File(outZipPath, f);
+            DESUtil.decryptLog(logFile.getAbsolutePath(), "/Users/liutao/IdeaProjects/self/demo/src/main/resources/log.txt");
+        }
+    }
+
+    public static void zipContraMultiFile(String zippath, String outzippath) {
+        try {
+            File file = new File(zippath);
+            File outFile = null;
+            ZipFile zipFile = new ZipFile(file);
+            ZipInputStream zipInput = new ZipInputStream(new FileInputStream(file));
+            ZipEntry entry = null;
+            InputStream input = null;
+            OutputStream output = null;
+            while ((entry = zipInput.getNextEntry()) != null) {
+                System.out.println("解压缩" + entry.getName() + "文件");
+                outFile = new File(outzippath + File.separator + entry.getName());
+                if (!outFile.getParentFile().exists()) {
+                    outFile.getParentFile().mkdir();
                 }
-            } catch (Exception e) {
-
+                if (!outFile.exists()) {
+                    outFile.createNewFile();
+                }
+                input = zipFile.getInputStream(entry);
+                output = new FileOutputStream(outFile);
+                int temp = 0;
+                while ((temp = input.read()) != -1) {
+                    output.write(temp);
+                }
+                input.close();
+                output.close();
             }
-            List<Record> records = JSONArray.parseArray(builder.toString(), Record.class);
-            List<Record> collect = records.stream().filter(record -> "20162".equals(record.staffCode) || "20104".equals(record.staffCode)).collect(Collectors.toList());
-            System.out.println(collect);
-            System.out.println("deal finish file name = " + fileName);
-        });
-
-        MethodHandles.Lookup lookup = MethodHandles.lookup();
-//        lookup.fi
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
 
-@Data
-class Record {
-    String staffCode, date, time;
-
-    @Override
-    public String toString() {
-        return JSONObject.toJSONString(this);
-    }
-}
