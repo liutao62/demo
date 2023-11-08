@@ -1,8 +1,8 @@
 package com.liutao62.leetcode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.google.common.collect.Lists;
+
+import java.util.*;
 
 /**
  * 给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，
@@ -21,47 +21,56 @@ import java.util.List;
  * 超出时间限制
  */
 public class _15 {
+
+    public static void main(String[] args) {
+        int[] array = Lists.newArrayList(-1, 0, 1).stream().mapToInt(Integer::intValue).toArray();
+        List<List<Integer>> lists = new _15().threeSum(array);
+        System.out.println(lists);
+    }
+
+    private static final Set<List<Integer>> threeSum = new HashSet<>();
+
     public List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
-        List<List<Integer>> lists = new ArrayList<>();
-        if (nums == null || nums.length < 3) return lists;
-        int one = 0, two = 1, three = 2;
-        while (one < nums.length - 2) {
-            if (nums[one] > 0) {
-                break;
-            }
-            List<Integer> list = this.gerList(nums, one, two, three);
-            if (list != null && !contains(lists, list)) lists.add(list);
-            if (two == nums.length - 2) {
-                two = ++one + 1;
-                three = two + 1;
-                continue;
-            }
-            if (three == nums.length - 1) three = ++two;
-            three++;
+        if (nums == null || nums.length < 3) {
+            return Collections.EMPTY_LIST;
         }
+
+        int begin = 0, end = nums.length - 1, mid = (begin + end) >> 1;
+        List<List<Integer>> lists = new ArrayList<>();
+        findList(begin, end, mid, nums, lists, false, false);
         return lists;
     }
 
-    private List<Integer> gerList(int[] nums, int one, int two, int three) {
-        if (nums[one] + nums[two] + nums[three] == 0) {
-            List<Integer> list = new ArrayList<>(3);
-            list.add(nums[one]);
-            list.add(nums[two]);
-            list.add(nums[three]);
-            return list;
+    private void findList(int begin, int end, int mid, int[] nums, List<List<Integer>> lists, boolean midIncrease, boolean midReduce) {
+        int beginNum = nums[begin];
+        int endNum = nums[end];
+        int midNum = nums[mid];
+        if (mid > begin && mid < end) {
+            int value = beginNum + midNum + endNum;
+            if (value == 0) {
+                List<Integer> triplet = new ArrayList<>(3);
+                triplet.add(beginNum);
+                triplet.add(midNum);
+                triplet.add(endNum);
+                if (!threeSum.contains(triplet)) {
+                    lists.add(triplet);
+                    threeSum.add(triplet);
+                }
+                findList(begin + 1, end, mid, nums, lists, false, false);
+                findList(begin, end - 1, mid, nums, lists, false, false);
+            } else if (value > 0) {
+                findList(begin, end - 1, mid, nums, lists, false, false);
+                if (!midIncrease) {
+                    findList(begin, end, mid - 1, nums, lists, false, true);
+                }
+            } else {
+                findList(begin + 1, end, mid, nums, lists, false, false);
+                if (!midReduce) {
+                    findList(begin, end, mid + 1, nums, lists, true, false);
+                }
+            }
         }
-        return null;
     }
 
-    private boolean contains(List<List<Integer>> lists, List<Integer> list) {
-        for (List<Integer> l : lists) {
-            List<Integer> cloneL = (List<Integer>) ((ArrayList<Integer>) l).clone();
-            List<Integer> cloneList = (List<Integer>) ((ArrayList<Integer>) list).clone();
-            cloneL.removeAll(list);
-            cloneList.removeAll(l);
-            if (cloneL.size() == 0 && cloneList.size() == 0) return true;
-        }
-        return false;
-    }
 }
