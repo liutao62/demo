@@ -14,7 +14,7 @@ public class Demo {
 
     public static void main(String[] args) throws Exception {
         // 解压后的最新 esn 文件（不带后缀）放在此目录下即可
-        String outputPath = "/Users/liutao/Downloads/android-log";
+        String outputPath = "/Users/liutao/Downloads/esnlog";
         File outZipPath = new File(outputPath);
 //        zipContraMultiFile("/Users/liutao/Downloads/esnlog (1).zip", outputPath);
         for (String f : Objects.requireNonNull(outZipPath.list())) {

@@ -6,4 +6,10 @@ package com.liutao62;
  * @description
  */
 public class TestBranch {
+
+    public void test1() {
+        System.out.println("com.liutao62.TestBranch.test1");
+    }
+
+
 }

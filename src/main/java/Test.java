@@ -1,10 +1,16 @@
+import com.google.common.collect.Lists;
+
+import java.io.*;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * @author liutao
  * @date Created in 2020/10/14 16:55
  * @description
  */
+//@Slf4j
 public class Test {
     public static void target(int i) {
         // 空方法
@@ -51,18 +57,50 @@ public class Test {
 //        System.out.println(temp - current);
 
         // 7299
-        Class<?> klass = Class.forName("Test");
-        Method method = klass.getMethod("target", int.class);
-        // 关闭权限检查
-        method.setAccessible(true);
+//        Class<?> klass = Class.forName("Test");
+//        Method method = klass.getMethod("target", int.class);
+//        // 关闭权限检查
+//        method.setAccessible(true);
+//
+//        polluteProfile();
+//        long current = System.currentTimeMillis();
+//        for (int i = 1; i <= 1_000_000_000; i++) {
+//            method.invoke(null, 128);
+//        }
+//        long temp = System.currentTimeMillis();
+//        System.out.println(temp - current);
 
-        polluteProfile();
-        long current = System.currentTimeMillis();
-        for (int i = 1; i <= 1_000_000_000; i++) {
-            method.invoke(null, 128);
+        ArrayList<String> list1 = Lists.newArrayList();
+        BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream("/Users/liutao/Downloads/11.txt"));
+        BufferedWriter bw = null;
+        OutputStreamWriter osw = null;
+        BufferedReader buffreader = null;
+        InputStream is = null;
+        is = new FileInputStream("/Users/liutao/Downloads/11.txt");
+        InputStreamReader inputreader = new InputStreamReader(is);
+        buffreader = new BufferedReader(inputreader);
+        String line;
+        while ((line = buffreader.readLine()) != null) {
+            list1.add(line);
         }
-        long temp = System.currentTimeMillis();
-        System.out.println(temp - current);
+
+
+        ArrayList<String> list2 = Lists.newArrayList();
+        is = new FileInputStream("/Users/liutao/Downloads/22.txt");
+        inputreader = new InputStreamReader(is);
+        buffreader = new BufferedReader(inputreader);
+        while ((line = buffreader.readLine()) != null) {
+            list2.add(line);
+        }
+
+        list1.removeAll(list2);
+
+        StringBuilder stringBuilder = new StringBuilder("('");
+        String collect = list1.stream().collect(Collectors.joining("','"));
+        stringBuilder.append(collect).append("')");
+
+        System.out.println();
+
     }
 
     public static void polluteProfile() throws Exception {

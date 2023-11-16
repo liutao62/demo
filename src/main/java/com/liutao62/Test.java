@@ -1,7 +1,12 @@
 package com.liutao62;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import lombok.Data;
 import lombok.SneakyThrows;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -11,10 +16,25 @@ import java.util.concurrent.TimeUnit;
  */
 public class Test {
     public static void main(String[] args) {
-        new Thread(new TimeWaiting(), "TimeWaiting").start();
-        new Thread(new Waiting(), "Waiting").start();
-        new Thread(new Blocked(), "Blocked-1").start();
-        new Thread(new Blocked(), "Blocked-2").start();
+
+        HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
+        objectObjectHashMap.put("123","123");
+        objectObjectHashMap.put("234","123");
+        Collection<Object> values = objectObjectHashMap.values();
+
+        JavaBean javaBean = new JavaBean();
+        javaBean.setId("id");
+        javaBean.setName("fsfsfs");
+        String jsonString = JSONObject.toJSONString(javaBean);
+        JSONObject jsonObject = JSONObject.parseObject(jsonString);
+        jsonObject.put("age",11);
+        try {
+
+            JavaBean javaObject = JSON.toJavaObject(jsonObject, JavaBean.class);
+            System.out.println();
+        }catch (Exception e){
+            System.out.println();
+        }
     }
 
     private static class TimeWaiting implements Runnable {
@@ -51,4 +71,9 @@ public class Test {
             }
         }
     }
+}
+
+@Data
+class JavaBean{
+    String id, name;
 }
