@@ -59,6 +59,7 @@ public class Report2023 {
                     if (hrattenddb && hrtmTenantList.contains(tenant)) {
                         continue;
                     }
+                    // 应对 3 种场景。1、连接太久 killed ，2、跳板机 token 过期 3、11 月底的数据增量更新
                     Statement statement = targetConnection.createStatement();
                     ResultSet executeQuery = statement.executeQuery("select max(calendar) as calendar from " + tableName + " where tenantid = '" + tenant + "';");
                     String calendar = executeQuery.next() && !StringUtils.isEmpty(executeQuery.getString("calendar")) ? executeQuery.getString("calendar") : "2023-01-01";
