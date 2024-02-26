@@ -30,11 +30,11 @@ public class Report2023 {
         loadDriver();
         String targetUrl = "jdbc:mysql://dbproxy.diwork.com:12368/esn_link?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai";
         String targetUsername = "lingyu";
-        String targetPassword = "hbvzOoHcocB2y9SFtV8iWDjY5DKLXIjn";
+        String targetPassword = "Gg5bEKZ8FDZkQeRFq_8889";
         try (java.sql.Connection targetConnection = DriverManager.getConnection(targetUrl, targetUsername, targetPassword);) {
             String sourceUrl = "jdbc:mysql://jumper.diwork.com:33061/yonbip_hr_tm?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai";
-            String sourceUsername = "e3dd7e85-4e89-451d-873f-ba50dcc3642c";
-            String sourcePassword = "B1RSDyt4pM4CRkmV";
+            String sourceUsername = "66a81b30-1c93-4527-8db3-f9a22e66fee5";
+            String sourcePassword = "ZTY2AfAcAaNitk67";
 
             HashMap<String, String> schemaTableMap = new LinkedHashMap<>();
             schemaTableMap.put("yonbip_hr_tm", "ts_daystat_tm");
@@ -62,7 +62,7 @@ public class Report2023 {
         CollectStaffList list = new CollectStaffList(new ArrayList<>(MEMORY_SIZE), targetConnection);
 
         ArrayList<String> strings = Lists.newArrayList("bk5ytx17", "cqmr5njx", "dpxhi49c", "eb8b58c3", "efgsc3wk", "esu1m1v6", "g7i9zxb7", "glroeeo3", "hc6h4yne", "hqp3mg1j", "it1c7eoe", "itvqa0x6", "j6dmja45", "j9b55izl", "mbe008kc", "n22w18oi", "no913wku", "ogz9urwc", "pxodp3oi", "rdy91zio", "s1mqekvo", "trr51z1u", "v1bxz4av", "vcb6smb7", "w5agxii3", "welu4bwq", "wwrtk9r8", "x689z0rz", "yspy9miu", "ayb9r1y4", "bk5ytx17", "izx2uug0", "q72omh0p", "qyic8c7o", "rdy91zio", "s4rl0np9", "u8jdybet", "x689z0rz", "xgjh8jtw", "yxuxnbwt");
-        for (String tenant : strings) {
+        for (String tenant : tenantList) {
             logger.warn("开始处理 租户 " + tenant);
             String queryFormat = " /* bip_streaming_export */ select /*+ max_execution_time(14400000) */ id, user_id, tenantid \n" +
                     "from %s.bd_staff\n" +

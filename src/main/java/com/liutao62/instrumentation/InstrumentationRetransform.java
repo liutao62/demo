@@ -43,6 +43,8 @@ class MyClassTransformer implements ClassFileTransformer {
                 test1.setBody("{ System.out.println(\"com.liutao62.TestBranch.test1\");\n System.out.println(\"test1 call myNewMethod1\");\n this.myNewMethod1(null); }");
                 test1.insertAfter("{ System.out.println(\"insertAfter\"); }");
                 ctClass.writeFile("/Users/liutao/Downloads");
+                INST.redefineClasses();
+                INST.retransformClasses();
                 return ctClass.toBytecode();
             } catch (Exception ex) {
                 System.out.println(ex);
