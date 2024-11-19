@@ -245,7 +245,7 @@ public class DESUtil {
         InputStream is = null;
         try {
             is = new FileInputStream(sourceFileName);
-            OutputStream out = new FileOutputStream(diminationFileName,true);
+            OutputStream out = new FileOutputStream(diminationFileName, true);
             InputStreamReader inputreader = new InputStreamReader(is);
             buffreader = new BufferedReader(inputreader);
             osw = new OutputStreamWriter(out);
