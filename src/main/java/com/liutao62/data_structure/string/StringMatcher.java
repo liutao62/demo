@@ -16,7 +16,7 @@ public class StringMatcher {
         List<DisplayResult> displayResults = matchStrings(antisense, transcript, maxWildcard);
         int count = 0;
         for (DisplayResult displayResult : displayResults) {
-            System.out.println("count = " + count ++ );
+            System.out.println("count = " + count++);
             System.out.println(displayResult);
         }
 
@@ -73,6 +73,11 @@ public class StringMatcher {
     public static List<DisplayResult> matchStrings(String antisense, String transcript, int maxWildcard) {
         String senseStrand = reverse(transfer(antisense));
 
+        int i = transcript.indexOf(antisense);
+        if (i != -1) {
+            return Collections.singletonList(new DisplayResult(0, i, antisense, senseStrand, senseStrand, senseStrand));
+        }
+
         int m = senseStrand.length();
         int n = transcript.length();
         // dp[i][j]表示原字符串原子原索引i，目标字符串索引j的匹配情况
@@ -84,9 +89,9 @@ public class StringMatcher {
         match(senseStrand, transcript, 0, 0, dp);
 
         List<MinCostPathsDijkstra.Result> minCostPathsDijkstra = MinCostPathsDijkstra.findMinCostPathsDijkstra(dp, m, maxWildcard);
-        Optional<MinCostPathsDijkstra.Result> max = minCostPathsDijkstra.stream().min(MinCostPathsDijkstra.Result::compare);
-        if (max.isPresent()) {
-            int cost = max.get().cost;
+        Optional<MinCostPathsDijkstra.Result> min = minCostPathsDijkstra.stream().min(MinCostPathsDijkstra.Result::compare);
+        if (min.isPresent()) {
+            int cost = min.get().cost;
             List<MinCostPathsDijkstra.Result> collect = minCostPathsDijkstra.stream().filter(result -> result.cost == cost).distinct().collect(Collectors.toList());
             List<DisplayResult> displayResults = Lists.newArrayList();
             for (MinCostPathsDijkstra.Result result : collect) {
@@ -169,6 +174,18 @@ public class StringMatcher {
     static class DisplayResult {
         int diffCount, pos;
         String antisense, transSense, transcriptFragment, transcript;
+
+        public DisplayResult() {
+        }
+
+        public DisplayResult(int diffCount, int pos, String antisense, String senseStrand, String antisense1, String transcript) {
+            this.diffCount = diffCount;
+            this.pos = pos;
+            this.antisense = antisense;
+            this.transSense = senseStrand;
+            this.transcriptFragment = antisense1;
+            this.transcript = transcript;
+        }
 
         @Override
         public String toString() {
@@ -274,14 +291,14 @@ class MinCostPathsDijkstra {
                 Node neighbor = new Node(current.x + 1, current.y + 1, isMatch ? 0 : 1, newCost, current.length + 1, current);
                 pq.add(neighbor);
 
-                int surplus = maxWildcard - current.cost;
+                int surplus = maxWildcard - current.totalCost;
                 for (int i = 1; i <= surplus; i++) {
                     if (current.y + 1 + i < n && arr[current.x + 1][current.y + 1 + i]) {
-                        neighbor = new Node(current.x + 1, current.y + 1 + i, i, current.totalCost + i, current.length + 1, current);
+                        neighbor = new Node(current.x + 1, current.y + 1 + i, 1, current.totalCost + i, current.length + 1, current);
                         pq.add(neighbor);
                     }
                     if (current.x + 1 + i < m && arr[current.x + 1 + i][current.y + 1]) {
-                        neighbor = new Node(current.x + 1 + i, current.y + 1, i, current.totalCost + i, current.length + 1, current);
+                        neighbor = new Node(current.x + 1 + i, current.y + 1, 1, current.totalCost + i, current.length + 1, current);
                         pq.add(neighbor);
                     }
                 }
