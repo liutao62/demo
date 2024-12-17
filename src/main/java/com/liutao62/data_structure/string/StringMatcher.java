@@ -14,53 +14,55 @@ public class StringMatcher {
         String antisense = "aggaga", transcript = "aggagabbbb";
         int maxWildcard = 3;
         List<DisplayResult> displayResults = matchStrings(antisense, transcript, maxWildcard);
+        int count = 0;
+        for (DisplayResult displayResult : displayResults) {
+            System.out.println("count = " + count ++ );
+            System.out.println(displayResult);
+        }
+
+        antisense = "aggaga";
+        transcript = "aggbbagafd";
+        displayResults = matchStrings(antisense, transcript, maxWildcard);
         for (DisplayResult displayResult : displayResults) {
             System.out.println(displayResult);
         }
-//
-//        antisense = "aggaga";
-//        transcript = "aggbbagafd";
-//        displayResults = matchStrings11(antisense, transcript, maxWildcard);
-//        for (DisplayResult displayResult : displayResults) {
-//            System.out.println(displayResult);
-//        }
 
-//        antisense = "agcgagab";
-//        transcript = "aggbagaabc";
-//        displayResults = matchStrings(antisense, transcript, maxWildcard);
-//        for (DisplayResult displayResult : displayResults) {
-//            System.out.println(displayResult);
-//        }
+        antisense = "agcgagab";
+        transcript = "aggbagaabc";
+        displayResults = matchStrings(antisense, transcript, maxWildcard);
+        for (DisplayResult displayResult : displayResults) {
+            System.out.println(displayResult);
+        }
 
-//        antisense = "agabbcc";
-//        transcript = "acabbcd";
-//        displayResults = matchStrings(antisense, transcript, maxWildcard);
-//        for (DisplayResult displayResult : displayResults) {
-//            System.out.println(displayResult);
-//        }
+        antisense = "agabbcc";
+        transcript = "acabbcd";
+        displayResults = matchStrings(antisense, transcript, maxWildcard);
+        for (DisplayResult displayResult : displayResults) {
+            System.out.println(displayResult);
+        }
 
-//        antisense = "aggbbaa";
-//        transcript = "baggagaaag";
-//        displayResults = matchStrings(antisense, transcript, maxWildcard);
-//        for (DisplayResult displayResult : displayResults) {
-//            System.out.println(displayResult);
-//        }
-//
-//        antisense = "aggaga";
-//        transcript = "bbaggagaaag";
-//        displayResults = matchStrings11(antisense, transcript, maxWildcard);
-//        for (DisplayResult displayResult : displayResults) {
-//            System.out.println(displayResult);
-//        }
+        antisense = "aggbbaa";
+        transcript = "baggagaaag";
+        displayResults = matchStrings(antisense, transcript, maxWildcard);
+        for (DisplayResult displayResult : displayResults) {
+            System.out.println(displayResult);
+        }
 
-//        antisense = "bcaggaga";
-//        transcript = "aggagaaau";
-//        displayResults = matchStrings11(antisense, transcript, maxWildcard);
-//        for (DisplayResult displayResult : displayResults) {
-//            System.out.println(displayResult);
-//        }
+        antisense = "aggaga";
+        transcript = "bbaggagaaag";
+        displayResults = matchStrings(antisense, transcript, maxWildcard);
+        for (DisplayResult displayResult : displayResults) {
+            System.out.println(displayResult);
+        }
 
-        antisense = "UGAAACUCCAGACCUAGACCU";
+        antisense = "bcaggaga";
+        transcript = "aggagaaau";
+        displayResults = matchStrings(antisense, transcript, maxWildcard);
+        for (DisplayResult displayResult : displayResults) {
+            System.out.println(displayResult);
+        }
+
+        antisense = "UUGGGGGCUGAGAUUGCUCCC";
         transcript = "aggggaagggaatgtgaccaggtctaggtctggagtttcagcttggacactgagctaagtagacaagcaaaacaagccaggacacgccatcctgccccaggcccagcttctctcctgccttctaatgccatggggagcagtctcagcccccagctctacctgatgcccttcatcttgggcctcttatctggaggtgtgaccaccactccattgtcttcggcccagcctcaaggatcctgctctctggagggggtagagatcaaaggtggctccttccgacttctccaagagggccaggcactggaatacgtgtgtccttctggcttctacccgtaccctgtgcagacacgtacctgcagatccacggggtcctggagcaccctgcagactcaagatcgaaaaactgtcaagaaggcagagtgcagagcaatccgctgtccacgaccacaggacttcgagaacggggaataccggccccggtctccctactacaatgtgagtgatgagatctctttccactgctatgacggttacactctccggggctctgccaatcgcacctgccaagtgaatggccggtggagtgggcagacagcgatctgtgacaacggagcggggtactgctccaacccaggcatccccattggcacaaggaaggtgggcagccggtaccgccttgaagacagcgtcacctaccactgcagccgggggcttaccctgcgtggctcccagcggcgaacatgtcaggaaggtggctcttggagcgggacggagccttcctgccaagactccttcatgtacgacacccctcaagaggtggccgaagctttcctgtcttccctgacggagaccatagaaggagtcgatgccgaggatgggcacagcccaggggaacaacagaagcggaggatcatcctagacccttcaggctccatgaacatctacctggtgctagatggatcagacagcattggggccggcaacttcacaggagccaaaaagtgtctagtcaacttaattgagaaggtggcaagttatggtgtgaagccaagatatgctctagtgacatatgccacataccccagaatttgggtcaaagtgtctgaccaagagagcagcaatgcagactgggtcacgaagaagctcagtgaaatcaattatgaagaccacaagttgaagtcagggactaacaccaagagggccctccaggcagtgtacagcatgatgagttggccagaggacatccctcctgaaggctggaaccgcacccgccatgtcatcatcctcatgaccgatggattgcacaacatgggcggggacccaattactgtcattgatgagatccgggacttgttatacatcggcaaggatcgcaaaaacccgagggaggattatctggatgtctatgtgtttggggttggacctttggtggaccaagtgaacatcaatgctttggcttccaagaaagacaatgagcaacatgtgttcaaagtcaaggatatggaaaacctggaagacgttttcttccaaatgattgatgaaagccagtctctgagtctctgtggcatggtttgggaacacacgacgggtaccgattaccacaagcaaccatggcaggccaagatctcagtcactcgcccttcgaagggacatgagagctgtatgggggctgtggtgtctgagtactttgtgctgacagcagcacattgttttactgtggacgacaaggaacactcgatcaaggtcagcgtggggaagaagcgggacctggagatagaaaaagtcctatttcaccccgactacaacattagcgggaaaaaagaagcaggaattcctgaattttatgactatgacgttgccctgatcaagctcaagaaaaagttgaattatgacccgactatcaggcccatttgtctcccctgtaccgagggaacaactcgagctttgaggcttcctccaactaccacttgccagcaacagaaggaagagctgctccctgcacaggatatcaaagctctgtttgtgtctgaggaggagaagaagctgactcggaaggaggtctacatcaagaatggggataagaaaggcagctgtgagagagatgctcaatatgccccaggctatgacaaagtcaaggacatctcggaggtggtcacccctcggttcctttgtactggaggagtgagtccctatgctgaccccaatacttgcagaggtgattctggcggccccttgatagttcacaagagaagtcgtttcattcaagttggtgtcatcagctggggagtagtggatgtctgcaaaaaccagaagcggcaaaagcaggtacctgctcacgcccgagactttcacgtcaacctcttccaagtgctgccctggctgaaggagaaactccaagatgaggatttgggttttctctaaggggtttcctgctggacaggggcgcgggattgaattaaaacagctgcgacaaca";
         displayResults = matchStrings(antisense, transcript, maxWildcard);
         for (DisplayResult displayResult : displayResults) {
@@ -85,7 +87,7 @@ public class StringMatcher {
         Optional<MinCostPathsDijkstra.Result> max = minCostPathsDijkstra.stream().min(MinCostPathsDijkstra.Result::compare);
         if (max.isPresent()) {
             int cost = max.get().cost;
-            List<MinCostPathsDijkstra.Result> collect = minCostPathsDijkstra.stream().filter(result -> result.cost == cost).collect(Collectors.toList());
+            List<MinCostPathsDijkstra.Result> collect = minCostPathsDijkstra.stream().filter(result -> result.cost == cost).distinct().collect(Collectors.toList());
             List<DisplayResult> displayResults = Lists.newArrayList();
             for (MinCostPathsDijkstra.Result result : collect) {
                 transferResult(antisense, transcript, result, senseStrand, displayResults);
@@ -106,14 +108,14 @@ public class StringMatcher {
             if (node.cost != 0) {
                 if (node.x - preX > node.y - preY) {
                     for (int i = node.x - node.cost; i < node.x; i++) {
-                        targetMatch.append("*");
+                        targetMatch.append(" ");
                         originMatch.append(senseStrand.charAt(i));
                     }
                     targetMatch.append(transcript.charAt(node.y));
                     originMatch.append(senseStrand.charAt(node.x));
                 } else if (node.x - preX < node.y - preY) {
                     for (int i = node.y - node.cost; i < node.y; i++) {
-                        originMatch.append("*");
+                        originMatch.append(" ");
                         targetMatch.append(transcript.charAt(i));
                     }
                     targetMatch.append(transcript.charAt(node.y));
@@ -134,7 +136,7 @@ public class StringMatcher {
         displayResult.pos = path.get(0).y;
         displayResult.diffCount = result.cost;
         displayResult.antisense = antisense;
-        displayResult.transcript = reverse(displayResult.transcriptFragment.replaceAll("\\*", ""));
+        displayResult.transcript = displayResult.transcriptFragment.replaceAll("\\ ", "").toLowerCase();
         displayResults.add(displayResult);
     }
 
@@ -252,7 +254,7 @@ class MinCostPathsDijkstra {
             }
 
             // 如果当前节点的路径长度已达到 routeCount，并且成本不超过 routeCount，返回结果
-            if (current.length == routeCount) {
+            if (current.length == routeCount || current.x == arr.length - 1) {
                 List<Node> path = new ArrayList<>();
                 Node temp = current;
                 while (temp != null) {
