@@ -60,7 +60,7 @@ public class DataTransfer {
 
     public static void main(String[] args) throws InterruptedException {
 
-        List<java.util.Date> collect = Arrays.stream(createDateArray(new java.util.Date(1730366070000l), new java.util.Date(1731921270000l))).collect(Collectors.toList());
+        List<java.util.Date> collect = Arrays.stream(createDateArray(new java.util.Date(1732698870000l), new java.util.Date(1733044470000l))).collect(Collectors.toList());
         ExecutorService executorService = Executors.newWorkStealingPool();
 
         collect.stream().forEach(date -> {
@@ -72,7 +72,7 @@ public class DataTransfer {
     }
 
     private static void transfer(java.util.Date beginDate, java.util.Date end) {
-        try (Connection prodConnection = DriverManager.getConnection("jdbc:mysql://jumper.diwork.com:33061/yonbip_hr_tm?characterEncoding=utf-8", "e0f512c1-9f39-4a44-9184-b2d670af4610", "euxSviD3XPJ7gXzX");
+        try (Connection prodConnection = DriverManager.getConnection("jdbc:mysql://jumper.diwork.com:33061/yonbip_hr_tm?characterEncoding=utf-8", "04a020c2-c9e9-4f77-8042-68eb2867f7e0", "RrHYXTlB4WQDKPmh");
              Statement statement = prodConnection.createStatement();
              Connection testConnection = DriverManager.getConnection("jdbc:mysql://dbproxy.diwork.com:12368/yonbip_hr_tm?characterEncoding=utf-8", "bip_hr_serv", "hbvzOoHcocB2y9SFtV8iWDjY5DKLXIjn");
              Statement testStatement = testConnection.createStatement();) {
@@ -80,8 +80,8 @@ public class DataTransfer {
 //            ArrayList<String> tenant = Lists.newArrayList("vkx4mgh7","lmcwzu3e","tfuqrfic","dlqorvak","diyt1hqk","xgjh8jtw","hj0j4fxt","izx2uug0","s4rl0np9","h2tsp9zl","ebkitg4w","gxm3arh0"
 //            );
             // 核心3 分库2
-//            ArrayList<String> tenant = Lists.newArrayList("ftzokcrn","hvgvzpx0","hdywrzfg"
-//            );
+            ArrayList<String> tenant = Lists.newArrayList("ftzokcrn","hvgvzpx0","hdywrzfg"
+            );
             // 核心4分库1
 //            ArrayList<String> tenant = Lists.newArrayList("r47tbpsv","aae28shl","da3mojo8","fo02vw19","b96sc95");
             // 核心4总账
@@ -93,8 +93,8 @@ public class DataTransfer {
             // 核心1 分库1
 //            ArrayList<String> tenant = Lists.newArrayList("rdy91zio");
             // 核心2
-            ArrayList<String> tenant = Lists.newArrayList("y6bzmfrx","trr51z1u","w34o47cq","wwrtk9r8","mbe008kc","ikkb9gi2","glroeeo3","kjevosbe","j9b55izl","dpxhi49c","ogz9urwc","t70rxy8a","nim5zstd","qmh8bs6c","ij44ambo","ckg75soz","u60uwe55","x0y0m8rn","eb8b58c3","p8s8sqd6","hqp3mg1j","rx69kmql","ton8l99g","cqmr5njx","xn9o50gt","vyos9rjy","dmpltzkc","lc6fpdmh","vz69bh15","fxrzzens","h27tpclq","b9wuchko","it1c7eoe","cwuhswon","bolmz333","itvqa0x6","sxljek2f","ryievz1l","sq4iimfp","n22w18oi","bnipy2cj","dsbuej9w","nbe2y23x","ppy6c63r","fe376zmc","qhwm54dz","fkdtrqg8","ipd1qn5s","obu25s4b","rkafzcia","ygzf9svt","da4g5qhf","lmmf8i8y","pxodp3oi","g7i9zxb7","rnqsuipc","s1mqekvo","aa7i8snb","nakpg97z","w8k9ito4","v1bxz4av"
-            );
+//            ArrayList<String> tenant = Lists.newArrayList("y6bzmfrx","trr51z1u","w34o47cq","wwrtk9r8","mbe008kc","ikkb9gi2","glroeeo3","kjevosbe","j9b55izl","dpxhi49c","ogz9urwc","t70rxy8a","nim5zstd","qmh8bs6c","ij44ambo","ckg75soz","u60uwe55","x0y0m8rn","eb8b58c3","p8s8sqd6","hqp3mg1j","rx69kmql","ton8l99g","cqmr5njx","xn9o50gt","vyos9rjy","dmpltzkc","lc6fpdmh","vz69bh15","fxrzzens","h27tpclq","b9wuchko","it1c7eoe","cwuhswon","bolmz333","itvqa0x6","sxljek2f","ryievz1l","sq4iimfp","n22w18oi","bnipy2cj","dsbuej9w","nbe2y23x","ppy6c63r","fe376zmc","qhwm54dz","fkdtrqg8","ipd1qn5s","obu25s4b","rkafzcia","ygzf9svt","da4g5qhf","lmmf8i8y","pxodp3oi","g7i9zxb7","rnqsuipc","s1mqekvo","aa7i8snb","nakpg97z","w8k9ito4","v1bxz4av"
+//            );
             tenant.forEach(tenantid -> dataTransfer(tenantid, beginDate, end, statement, testStatement));
 
             // 查询租户下最早的日报日期
