@@ -75,6 +75,10 @@ public class StringMatcher {
         int n = transcript.length();
         // dp[i][j]表示原字符串原子原索引i，目标字符串索引j的匹配情况
         boolean[][] dp = new boolean[m][n];
+        // dp 减少 maxWildcard 后，转录本跳过匹配 后 length 不够导致场景丢失
+        // 如         String antisense = "aggaga", transcript = "aggagabbbb";
+        // 现在仅返回     agAGga  agGAga
+        // todo 希望增加返回     ag*agga  aggag*a
         match(senseStrand, transcript, 0, 0, dp);
 
         List<MinCostPathsDijkstra.Result> minCostPathsDijkstra = MinCostPathsDijkstra.findMinCostPathsDijkstra(dp, m, maxWildcard);
