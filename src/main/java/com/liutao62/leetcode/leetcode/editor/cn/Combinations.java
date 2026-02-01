@@ -28,11 +28,24 @@ public class Combinations {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public List<List<Integer>> combine(int n, int k) {
-            if(k < 0){
-                return new ArrayList<>();
-            }
-            return null;
+            List<List<Integer>> result = new ArrayList<>();
+            backtrack(n, k, 1, new ArrayList<>(), result);
+            return result;
         }
+
+        private void backtrack(int n, int k, int start, List<Integer> path, List<List<Integer>> result) {
+            if (path.size() == k) {
+                result.add(new ArrayList<>(path));
+                return;
+            }
+            for (int i = start; i <= n; i++) {
+                path.add(i);
+                backtrack(n, k, i + 1, path, result);
+                path.remove((Object) i);
+            }
+        }
+
+
     }
 //leetcode submit region end(Prohibit modification and deletion)
 
