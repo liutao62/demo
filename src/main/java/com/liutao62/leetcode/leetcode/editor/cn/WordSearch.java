@@ -37,49 +37,51 @@ public class WordSearch {
     public static void main(String[] args) {
         Solution solution = new WordSearch().new Solution();
         char[][] board = new char[][]{
-                {'A', 'B', 'C', 'D'},
-                {'S', 'F', 'C', 'S'},
-                {'A', 'D', 'E', 'E'}
+                {'A','B','C','E'},
+                {'S','F','C','S'},
+                {'A','D','E','E'}
         };
-        String target = "ABCCED";
-        System.out.println(solution.exist(board, target));
+        String target = "ABCB";
+//        System.out.println(solution.exist(board, target));
 
-        char[][] b = {{'c', 'a', 'a'}, {'a', 'a', 'a'}, {'b', 'c', 'd'}};
-        String w = "aab";
+        char[][] b = {{'a'}};
+        String w = "a";
         solution.exist(b, w);
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public boolean exist(char[][] board, String word) {
-            if (word == null || word.length() == 0) {
-                return true;
-            }
-            if (board == null || board.length == 0 || board[0].length == 0) {
-                return false;
-            }
-            char[] chars = word.toCharArray();
+            boolean[][] visited = new boolean[board.length][board[0].length];
             for (int i = 0; i < board.length; i++) {
-                for (int j = 0; j < board[i].length; j++) {
-                    if (existHelp(board, chars, i, j, 0)) {
-                        return true;
+                for (int i1 = 0; i1 < board[i].length; i1++) {
+                    if (board[i][i1] == word.charAt(0)) {
+                        if (backtrack(board, word, i, i1, 0, word.length(), visited)) {
+                            return true;
+                        }
                     }
                 }
             }
             return false;
         }
 
-        private boolean existHelp(char[][] board, char[] word, int i, int j, int len) {
-            if (len == word.length) {
+        public boolean backtrack(char[][] board, String word, int i, int j, int index, int len, boolean[][] visited) {
+            if (index == len) {
                 return true;
             }
-            if (i < 0 || i == board.length || j < 0 || j == board[i].length || board[i][j] != word[len]) {
+            if (i >= board.length || j >= board[0].length || i < 0 || j < 0) {
                 return false;
             }
-            // 因为只包含字母，用 . 过滤重复使用
-            board[i][j] = '.';
-            return existHelp(board, word, i + 1, j, len + 1) || existHelp(board, word, i - 1, j, len + 1)
-                    || existHelp(board, word, i, j - 1, len + 1) || existHelp(board, word, i, j + 1, len + 1);
+            if (visited[i][j] || word.charAt(index) != board[i][j]) {
+                return false;
+            }
+            visited[i][j] = true;
+            boolean exist = backtrack(board, word, i + 1, j, index + 1, len, visited)
+                    || backtrack(board, word, i, j + 1, index + 1, len, visited)
+                    || backtrack(board, word, i, j - 1, index + 1, len, visited)
+                    || backtrack(board, word, i - 1, j, index + 1, len, visited);
+            visited[i][j] = false;
+            return exist;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
